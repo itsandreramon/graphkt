@@ -1,20 +1,21 @@
 package app.graphkt
 
-import kotlin.reflect.KClass
-
 data class GraphQlType(
 	var name: String = "",
-	var fields: MutableList<GraphQlTypeField> = mutableListOf(),
+	var fields: MutableList<GraphQlTypeField<Any>> = mutableListOf(),
 	var generateFragment: Boolean = false,
 	var generateInput: Boolean = false,
 )
 
-class GraphQlTypeField {
-	var name: String = ""
-	var type: KClass<Any>? = null
-}
+data class GraphQlTypeField<T>(
+	var name: String = "",
+	var type: T? = null,
+)
 
-class TypeBuilder(private val type: GraphQlType, val onBuiltCallback: (GraphQlType) -> Unit) {
+class TypeBuilder(
+	private val type: GraphQlType,
+	val onBuiltCallback: (GraphQlType) -> Unit,
+) {
 	fun generateFragment(value: Boolean) {
 		type.generateFragment = value
 	}
@@ -29,20 +30,32 @@ class TypeBuilder(private val type: GraphQlType, val onBuiltCallback: (GraphQlTy
 	}
 }
 
-fun TypeBuilder.fields(builder: FieldDefinitions.() -> Unit) {
-
+fun TypeDefinitions.fields(fields: FieldDefinitions.() -> Unit) {
+	fields(FieldDefinitions(this))
 }
 
-class FieldBuilder(private val field: GraphQlTypeField) {
-
+class FieldBuilder<T : Any>(
+	private val field: GraphQlTypeField<T>,
+	private val onBuiltCallback: (GraphQlTypeField<T>) -> Unit,
+) {
 	fun name(value: String) {
 		field.name = value
 	}
+
+	fun build(): FieldBuilder<T> {
+		onBuiltCallback(field)
+		return this
+	}
 }
 
-fun <T> FieldDefinitions.Field(builder: FieldBuilder.() -> Unit) {
-	val field = GraphQlTypeField()
-	builder(FieldBuilder(field))
+fun <T : Any> FieldDefinitions.Field(builder: FieldBuilder<T>.() -> Unit) {
+	val field = GraphQlTypeField<T>()
+
+	builder(FieldBuilder(field, onBuiltCallback = {
+		this.typeDefinitions.type.fields.add(it as GraphQlTypeField<Any>)
+	}).build())
 }
 
-interface FieldDefinitions
+class FieldDefinitions(
+	val typeDefinitions: TypeDefinitions,
+)

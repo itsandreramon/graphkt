@@ -2,6 +2,7 @@ package app.graphkt
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
@@ -20,6 +21,31 @@ class AppTests {
 
 	@Nested
 	inner class SchemaTypeTests {
+
+		@Test
+		fun test_schema_type_fields() {
+			val actual = buildSchema("MySchema") {
+				types {
+					Type("MyType") {
+						fields {
+							Field<String> { name("destinationLatLng") }
+							Field<String> { name("originLatLng") }
+							Field<Pair<Double, Double>> { name("waypoints") }
+						}
+					}
+				}
+			}.types
+
+			val expected = listOf(
+				GraphQlType("MyType", mutableListOf(
+					GraphQlTypeField("destinationLatLng", null),
+					GraphQlTypeField("originLatLng", null),
+					GraphQlTypeField("waypoints", null),
+				))
+			)
+
+			assertEquals(expected, actual)
+		}
 
 		@ParameterizedTest
 		@ValueSource(booleans = [false, true])

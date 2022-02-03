@@ -22,7 +22,6 @@ tasks.test {
 
 dependencies {
 	implementation(kotlin("stdlib"))
-	implementation(kotlin("reflect"))
 
 	testImplementation(platform("org.junit:junit-bom:5.8.2"))
 	testImplementation("org.junit.jupiter:junit-jupiter")
