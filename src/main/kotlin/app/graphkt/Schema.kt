@@ -24,7 +24,7 @@ fun buildSchema(name: String, builder: SchemaDefinition.() -> Unit): Schema {
 	return Schema(name).build(builder)
 }
 
-fun TypeDefinitions.Type(name: String, typeBuilder: TypeBuilder.() -> Unit) {
+fun TypeDefinitions.Type(name: String, typeBuilder: TypeBuilder.() -> Unit = {}) {
 	val type = GraphQlType().apply {
 		this.name = name
 	}

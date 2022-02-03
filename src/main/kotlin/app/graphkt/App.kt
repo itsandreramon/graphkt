@@ -2,7 +2,7 @@ package app.graphkt
 
 val schema = buildSchema(name = "MySchema") {
 	types {
-		Type(name = "Example") {}
+		Type(name = "Example")
 		Type(name = "Directions") {
 			generateFragment(true)
 			generateInput(true)
