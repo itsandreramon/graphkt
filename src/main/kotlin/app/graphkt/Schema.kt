@@ -20,7 +20,7 @@ class Schema(val name: String) {
 	}
 }
 
-fun buildSchema(name: String, builder: SchemaDefinition.() -> Unit): Schema {
+fun buildSchema(name: String, builder: SchemaDefinition.() -> Unit = {}): Schema {
 	return Schema(name).build(builder)
 }
 

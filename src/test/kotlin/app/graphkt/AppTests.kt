@@ -13,7 +13,7 @@ class AppTests {
 		@ParameterizedTest
 		@ValueSource(strings = ["MySchema", "MyOtherSchema"])
 		fun test_schema_name(name: String) {
-			val actual = buildSchema(name) {}.name
+			val actual = buildSchema(name).name
 			assertEquals(name, actual)
 		}
 	}
