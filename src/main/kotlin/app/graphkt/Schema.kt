@@ -5,7 +5,7 @@ class Schema(private val name: String) {
 	val queries: List<GraphQlMutation> = mutableListOf()
 	val mutations: List<GraphQlMutation> = mutableListOf()
 	val fragments: List<GraphQlFragment> = mutableListOf()
-	private val types: MutableList<GraphQlType> = mutableListOf()
+	val types: MutableList<GraphQlType> = mutableListOf()
 
 	fun build(builder: SchemaDefinition.() -> Unit): Schema {
 		builder(SchemaDefinition(this))
@@ -24,19 +24,20 @@ fun buildSchema(name: String, builder: SchemaDefinition.() -> Unit): Schema {
 	return Schema(name).build(builder)
 }
 
-fun TypeDefinitions.Type(name: String, typeBuilder: TypeBuilder.() -> Unit): GraphQlType {
+fun TypeDefinitions.Type(name: String, typeBuilder: TypeBuilder.() -> Unit) {
 	val type = GraphQlType().apply {
 		this.name = name
 	}
 
-	typeBuilder(TypeBuilder(type))
-	return type
+	typeBuilder(TypeBuilder(type, onBuiltCallback = {
+		this.schemaDefinition.schema.types.add(it)
+	}).build())
 }
 
 fun SchemaDefinition.types(types: TypeDefinitions.() -> Unit) {
 	types(TypeDefinitions(this))
 }
 
-class TypeDefinitions(private val schemaDefinition: SchemaDefinition)
+class TypeDefinitions(val schemaDefinition: SchemaDefinition)
 
-class SchemaDefinition(private val schema: Schema)
+class SchemaDefinition(val schema: Schema)

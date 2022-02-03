@@ -2,25 +2,30 @@ package app.graphkt
 
 import kotlin.reflect.KClass
 
-class GraphQlType {
-	var name: String = ""
-	var fields: MutableList<GraphQlTypeField> = mutableListOf()
-	var generateFragment: Boolean = false
-	var generateInput: Boolean = false
-}
+data class GraphQlType(
+	var name: String = "",
+	var fields: MutableList<GraphQlTypeField> = mutableListOf(),
+	var generateFragment: Boolean = false,
+	var generateInput: Boolean = false,
+)
 
 class GraphQlTypeField {
 	var name: String = ""
 	var type: KClass<Any>? = null
 }
 
-class TypeBuilder(val type: GraphQlType) {
+class TypeBuilder(private val type: GraphQlType, val onBuiltCallback: (GraphQlType) -> Unit) {
 	fun generateFragment(value: Boolean) {
 		type.generateFragment = value
 	}
 
 	fun generateInput(value: Boolean) {
 		type.generateInput = value
+	}
+
+	fun build(): TypeBuilder {
+		onBuiltCallback(type)
+		return this
 	}
 }
 
