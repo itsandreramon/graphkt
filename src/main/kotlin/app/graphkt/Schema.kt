@@ -1,6 +1,6 @@
 package app.graphkt
 
-class Schema(private val name: String) {
+class Schema(val name: String) {
 
 	val queries: List<GraphQlMutation> = mutableListOf()
 	val mutations: List<GraphQlMutation> = mutableListOf()

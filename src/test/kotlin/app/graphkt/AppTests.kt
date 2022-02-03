@@ -6,7 +6,14 @@ import org.junit.jupiter.api.Test
 class AppTests {
 
 	@Test
-	fun test_schema_type_definition() {
+	fun test_schema_name() {
+		val actual = buildSchema("MySchema") {}.name
+		val expected = "MySchema"
+		assertEquals(expected, actual)
+	}
+
+	@Test
+	fun test_schema_types() {
 		val actual = buildSchema("MySchema") {
 			types {
 				Type("MyType") {
