@@ -1,15 +1,29 @@
 plugins {
-    kotlin("jvm") version "1.6.10"
+	kotlin("jvm") version "1.6.10"
 }
 
-group = "org.example"
-version = "1.0-SNAPSHOT"
+group = "app"
 
 repositories {
-    mavenCentral()
+	mavenCentral()
+}
+
+java.sourceCompatibility = JavaVersion.VERSION_17
+
+tasks.compileKotlin {
+	kotlinOptions {
+		jvmTarget = JavaVersion.VERSION_17.toString()
+	}
+}
+
+tasks.test {
+	useJUnitPlatform()
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
-    implementation(kotlin("reflect"))
+	implementation(kotlin("stdlib"))
+	implementation(kotlin("reflect"))
+
+	testImplementation(platform("org.junit:junit-bom:5.8.2"))
+	testImplementation("org.junit.jupiter:junit-jupiter")
 }
