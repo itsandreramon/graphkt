@@ -1,5 +1,11 @@
 package app.graphkt
 
+import app.graphkt.concept.Field
+import app.graphkt.concept.Type
+import app.graphkt.concept.fields
+import app.graphkt.concept.types
+import app.graphkt.graphql.buildSchema
+
 val schema = buildSchema(name = "MySchema") {
 	types {
 		Type(name = "Example")
