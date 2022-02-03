@@ -1,10 +1,20 @@
 package app.graphkt.graphql
 
 import app.graphkt.concept.SchemaDefinition
+import app.graphkt.concept.TypeDefinitions
 
 class GraphQlSchema(val name: String) {
 
-	val types: MutableList<GraphQlType> = mutableListOf()
+	private val _types = mutableListOf<GraphQlType>()
+	val types: List<GraphQlType> = _types
+
+	fun addType(typeDefinitions: TypeDefinitions, type: GraphQlType) {
+		if (typeDefinitions.schemaDefinition.schema == this) {
+			_types.add(type)
+		} else {
+			throw IllegalStateException("Cannot modify types of another schema.")
+		}
+	}
 
 	fun build(builder: SchemaDefinition.() -> Unit): GraphQlSchema {
 		builder(SchemaDefinition(this))

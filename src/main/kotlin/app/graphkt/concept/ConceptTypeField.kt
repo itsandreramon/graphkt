@@ -2,6 +2,12 @@ package app.graphkt.concept
 
 import app.graphkt.graphql.GraphQlTypeField
 
+/**
+ * Builder that is used to modify a field of a GraphQL type.
+ *
+ * @param field The field of a GraphQL type that is being modified.
+ * @param onBuiltCallback Lambda that is getting executed when all modifications are done.
+ */
 class FieldBuilder<T : Any>(
 	private val field: GraphQlTypeField<T>,
 	private val onBuiltCallback: (GraphQlTypeField<T>) -> Unit,

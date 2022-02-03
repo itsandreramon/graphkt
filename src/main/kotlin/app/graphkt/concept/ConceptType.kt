@@ -2,9 +2,15 @@ package app.graphkt.concept
 
 import app.graphkt.graphql.GraphQlType
 
+/**
+ * Builder that is used to modify a GraphQL type.
+ *
+ * @param type The GraphQL type that is being modified.
+ * @param onBuiltCallback Lambda that is getting executed when all modifications are done.
+ */
 class TypeBuilder(
 	private val type: GraphQlType,
-	val onBuiltCallback: (GraphQlType) -> Unit,
+	private val onBuiltCallback: (GraphQlType) -> Unit,
 ) {
 	fun generateFragment(value: Boolean) {
 		type.generateFragment = value
@@ -31,7 +37,7 @@ fun TypeDefinitions.Type(name: String, typeBuilder: TypeBuilder.() -> Unit = {})
 	}
 
 	typeBuilder(TypeBuilder(type, onBuiltCallback = {
-		this.schemaDefinition.schema.types.add(it)
+		this.schemaDefinition.schema.addType(this, it)
 	}).build())
 }
 
