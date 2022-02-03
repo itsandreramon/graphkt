@@ -10,6 +10,11 @@ package app.graphkt.graphql
 import app.graphkt.concept.SchemaDefinition
 import app.graphkt.concept.TypeDefinitions
 
+/**
+ * State-holder that represents the current transformation model.
+ *
+ * @param name Defines the name of generated schema.
+ */
 class GraphQlSchema(val name: String) {
 
 	private val _types = mutableListOf<GraphQlType>()
