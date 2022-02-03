@@ -7,7 +7,7 @@ class AppTests {
 
 	@Test
 	fun test_schema_name() {
-		val actual = buildSchema("MySchema1") {}.name
+		val actual = buildSchema("MySchema") {}.name
 		val expected = "MySchema"
 		assertEquals(expected, actual)
 	}
