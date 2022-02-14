@@ -48,7 +48,7 @@ class AppTests {
 
         @Test
         fun test_schema_queries() {
-            val actual = buildSchema("MySchema") {
+            val actual = buildSchema {
                 queries {
                     Query(name = "exampleQuery") {
                         inputs { Input { name("ExampleInput") } }
@@ -85,7 +85,7 @@ class AppTests {
 
         @Test
         fun test_schema_type_fields() {
-            val actual = buildSchema("MySchema") {
+            val actual = buildSchema {
                 types {
                     Type("MyType") {
                         fields {
@@ -111,7 +111,7 @@ class AppTests {
         @ParameterizedTest
         @ValueSource(booleans = [false, true])
         fun test_schema_types(enabled: Boolean) {
-            val actual = buildSchema("MySchema") {
+            val actual = buildSchema {
                 types {
                     Type("MyType") {
                         generateInput(enabled)

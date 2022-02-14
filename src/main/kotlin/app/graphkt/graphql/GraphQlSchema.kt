@@ -71,6 +71,6 @@ class GraphQlSchemaImpl(override val name: String) : GraphQlSchema {
  * @param name The name of the created Schema file.
  * @param builder Lambda passed into in order to add schema properties.
  */
-fun buildSchema(name: String, builder: SchemaDefinition.() -> Unit = {}): GraphQlSchema {
+fun buildSchema(name: String = "", builder: SchemaDefinition.() -> Unit = {}): GraphQlSchema {
     return GraphQlSchemaImpl(name).build(builder)
 }
