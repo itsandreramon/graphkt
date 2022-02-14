@@ -7,9 +7,11 @@
 
 package app.graphkt.concept
 
+import app.graphkt.concept.fragment.FragmentDefinitions
 import app.graphkt.concept.query.QueryDefinitions
 import app.graphkt.concept.type.TypeDefinitions
 import app.graphkt.graphql.GraphQlSchema
+import app.graphkt.graphql.fragment.GraphQlFragment
 import app.graphkt.graphql.query.GraphQlQuery
 import app.graphkt.graphql.type.GraphQlType
 
@@ -25,10 +27,19 @@ fun SchemaDefinition.types(types: TypeDefinitions.() -> Unit) {
 /**
  * Function used to define queries inside a QueryDefinitions scope.
  *
- * @param types Lambda passed into in order to add types.
+ * @param queries Lambda passed into in order to add queries.
  */
 fun SchemaDefinition.queries(queries: QueryDefinitions.() -> Unit) {
     queries(QueryDefinitions(GraphQlQuery(), this))
+}
+
+/**
+ * Function used to define fragments inside a FragmentDefinitions scope.
+ *
+ * @param fragments Lambda passed into in order to add fragments.
+ */
+fun SchemaDefinition.fragments(fragments: FragmentDefinitions.() -> Unit) {
+    fragments(FragmentDefinitions(GraphQlFragment(), this))
 }
 
 /**

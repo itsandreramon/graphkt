@@ -9,4 +9,5 @@ package app.graphkt.graphql.query
 
 data class GraphQlQueryOutput(
     val fields: MutableList<GraphQlQuerySelectionField> = mutableListOf(),
+    val fragments: MutableList<GraphQlQuerySelectionFragment> = mutableListOf(),
 )

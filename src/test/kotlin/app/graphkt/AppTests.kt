@@ -17,13 +17,13 @@ import app.graphkt.concept.type.Field
 import app.graphkt.concept.type.Type
 import app.graphkt.concept.type.fields
 import app.graphkt.concept.types
+import app.graphkt.graphql.buildSchema
 import app.graphkt.graphql.query.GraphQlQuery
 import app.graphkt.graphql.query.GraphQlQueryInput
 import app.graphkt.graphql.query.GraphQlQueryOutput
 import app.graphkt.graphql.query.GraphQlQuerySelectionField
 import app.graphkt.graphql.type.GraphQlType
 import app.graphkt.graphql.type.GraphQlTypeField
-import app.graphkt.graphql.buildSchema
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -89,9 +89,9 @@ class AppTests {
                 types {
                     Type("MyType") {
                         fields {
-                            Field<String> { name("destinationLatLng") }
-                            Field<String> { name("originLatLng") }
-                            Field<Pair<Double, Double>> { name("waypoints") }
+                            Field { name("destinationLatLng"); type("[String!]!") }
+                            Field { name("originLatLng"); type("[String!]!") }
+                            Field { name("waypoints"); type("[String!]!") }
                         }
                     }
                 }
@@ -99,9 +99,9 @@ class AppTests {
 
             val expected = listOf(
                 GraphQlType("MyType", mutableListOf(
-                    GraphQlTypeField("destinationLatLng", null),
-                    GraphQlTypeField("originLatLng", null),
-                    GraphQlTypeField("waypoints", null),
+                    GraphQlTypeField("destinationLatLng", "[String!]!"),
+                    GraphQlTypeField("originLatLng", "[String!]!"),
+                    GraphQlTypeField("waypoints", "[String!]!"),
                 ))
             )
 

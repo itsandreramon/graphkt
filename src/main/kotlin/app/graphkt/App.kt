@@ -7,8 +7,13 @@
 
 package app.graphkt
 
+import app.graphkt.concept.fragment.Field
+import app.graphkt.concept.fragment.Fragment
+import app.graphkt.concept.fragment.fields
+import app.graphkt.concept.fragments
 import app.graphkt.concept.queries
 import app.graphkt.concept.query.FieldSelection
+import app.graphkt.concept.query.FragmentSelection
 import app.graphkt.concept.query.Input
 import app.graphkt.concept.query.Query
 import app.graphkt.concept.query.inputs
@@ -30,6 +35,16 @@ val schema = buildSchema(name = "MySchema") {
                 FieldSelection { name("originLatLng") }
                 FieldSelection { name("destinationLatLng") }
                 FieldSelection { name("waypoints") }
+
+                FragmentSelection { name("exampleFragment") }
+            }
+        }
+    }
+
+    fragments {
+        Fragment(name = "exampleFragment") {
+            fields {
+                Field { name("exampleField"); type("[String!]!") }
             }
         }
     }
@@ -40,9 +55,9 @@ val schema = buildSchema(name = "MySchema") {
             generateInput(true)
 
             fields {
-                Field<String> { name("originLatLng") }
-                Field<String> { name("destinationLatLng") }
-                Field<Pair<Double, Double>> { name("waypoints") }
+                Field { name("originLatLng"); type("[String!]!") }
+                Field { name("destinationLatLng"); type("[String!]!") }
+                Field { name("waypoints"); type("[String!]!") }
             }
         }
     }

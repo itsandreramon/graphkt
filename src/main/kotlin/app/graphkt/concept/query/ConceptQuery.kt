@@ -38,6 +38,12 @@ fun QueryDefinitions.inputs(inputs: InputDefinition.() -> Unit) {
     inputs(InputDefinition(this))
 }
 
+/**
+ * State-holder that is used to map a given query definition and corresponding schema.
+ *
+ * @param type The currently defined GraphQL type.
+ * @param schemaDefinition The current schema definition the query is being defined on.
+ */
 class QueryDefinitions(
     val query: GraphQlQuery,
     val schemaDefinition: SchemaDefinition,

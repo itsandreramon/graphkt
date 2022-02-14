@@ -5,7 +5,7 @@
  * University of Applied Sciences Brandenburg
  */
 
-package app.graphkt.graphql.type
+package app.graphkt.graphql.fragment
 
 /**
  * Defines attributes that are used to generate a GraphQL type.
@@ -15,9 +15,7 @@ package app.graphkt.graphql.type
  * @param generateFragment Determines whether or not a GraphQL fragment is being generated.
  * @param generateInput Determines whether or not a GraphQL input is being generated.
  */
-data class GraphQlType(
+data class GraphQlFragment(
     var name: String = "",
-    var fields: MutableList<GraphQlTypeField> = mutableListOf(),
-    var generateFragment: Boolean = false,
-    var generateInput: Boolean = false,
+    val fields: MutableList<GraphQlFragmentField> = mutableListOf(),
 )

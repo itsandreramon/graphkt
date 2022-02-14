@@ -49,8 +49,8 @@ fun TypeDefinitions.Type(name: String, typeBuilder: TypeBuilder.() -> Unit = {})
     }).build())
 }
 
-fun TypeDefinitions.fields(fields: FieldDefinitions.() -> Unit) {
-    fields(FieldDefinitions(this))
+fun TypeDefinitions.fields(fields: TypeFieldDefinitions.() -> Unit) {
+    fields(TypeFieldDefinitions(this))
 }
 
 /**
