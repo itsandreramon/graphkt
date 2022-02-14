@@ -5,9 +5,9 @@
  * University of Applied Sciences Brandenburg
  */
 
-package app.graphkt.concept
+package app.graphkt.concept.query
 
-import app.graphkt.graphql.GraphQlQuerySelectionField
+import app.graphkt.graphql.query.GraphQlQuerySelectionField
 
 class SelectionFieldBuilder(
     private val field: GraphQlQuerySelectionField,

@@ -5,9 +5,9 @@
  * University of Applied Sciences Brandenburg
  */
 
-package app.graphkt.concept
+package app.graphkt.concept.query
 
-import app.graphkt.graphql.GraphQlQueryInput
+import app.graphkt.graphql.query.GraphQlQueryInput
 
 class QueryInputBuilder(
     private val input: GraphQlQueryInput,

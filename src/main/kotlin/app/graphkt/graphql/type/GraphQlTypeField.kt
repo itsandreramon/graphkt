@@ -5,7 +5,7 @@
  * University of Applied Sciences Brandenburg
  */
 
-package app.graphkt.graphql
+package app.graphkt.graphql.type
 
 /**
  * Defines attributes that are used to generate fields of a GraphQL type.

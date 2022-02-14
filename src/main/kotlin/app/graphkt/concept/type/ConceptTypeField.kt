@@ -5,9 +5,9 @@
  * University of Applied Sciences Brandenburg
  */
 
-package app.graphkt.concept
+package app.graphkt.concept.type
 
-import app.graphkt.graphql.GraphQlTypeField
+import app.graphkt.graphql.type.GraphQlTypeField
 
 /**
  * Builder that is used to modify a field of a GraphQL type.

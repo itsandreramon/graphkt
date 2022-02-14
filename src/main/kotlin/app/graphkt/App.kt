@@ -7,15 +7,15 @@
 
 package app.graphkt
 
-import app.graphkt.concept.Field
-import app.graphkt.concept.FieldSelection
-import app.graphkt.concept.Input
-import app.graphkt.concept.Query
-import app.graphkt.concept.Type
-import app.graphkt.concept.fields
-import app.graphkt.concept.inputs
-import app.graphkt.concept.output
 import app.graphkt.concept.queries
+import app.graphkt.concept.query.FieldSelection
+import app.graphkt.concept.query.Input
+import app.graphkt.concept.query.Query
+import app.graphkt.concept.query.inputs
+import app.graphkt.concept.query.output
+import app.graphkt.concept.type.Field
+import app.graphkt.concept.type.Type
+import app.graphkt.concept.type.fields
 import app.graphkt.concept.types
 import app.graphkt.graphql.buildSchema
 

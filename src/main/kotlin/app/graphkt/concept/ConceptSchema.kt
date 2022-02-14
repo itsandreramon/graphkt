@@ -7,9 +7,11 @@
 
 package app.graphkt.concept
 
-import app.graphkt.graphql.GraphQlQuery
+import app.graphkt.concept.query.QueryDefinitions
+import app.graphkt.concept.type.TypeDefinitions
 import app.graphkt.graphql.GraphQlSchema
-import app.graphkt.graphql.GraphQlType
+import app.graphkt.graphql.query.GraphQlQuery
+import app.graphkt.graphql.type.GraphQlType
 
 /**
  * Function used to define types inside a TypeDefinitions scope.

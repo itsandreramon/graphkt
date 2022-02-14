@@ -7,9 +7,11 @@
 
 package app.graphkt.graphql
 
-import app.graphkt.concept.QueryDefinitions
 import app.graphkt.concept.SchemaDefinition
-import app.graphkt.concept.TypeDefinitions
+import app.graphkt.concept.query.QueryDefinitions
+import app.graphkt.concept.type.TypeDefinitions
+import app.graphkt.graphql.query.GraphQlQuery
+import app.graphkt.graphql.type.GraphQlType
 
 interface GraphQlSchema {
     val name: String

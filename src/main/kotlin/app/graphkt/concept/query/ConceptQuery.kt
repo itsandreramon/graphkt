@@ -5,9 +5,10 @@
  * University of Applied Sciences Brandenburg
  */
 
-package app.graphkt.concept
+package app.graphkt.concept.query
 
-import app.graphkt.graphql.GraphQlQuery
+import app.graphkt.concept.SchemaDefinition
+import app.graphkt.graphql.query.GraphQlQuery
 
 class QueryBuilder(
     private val query: GraphQlQuery,

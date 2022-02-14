@@ -5,8 +5,6 @@
  * University of Applied Sciences Brandenburg
  */
 
-package app.graphkt.graphql
+package app.graphkt.graphql.query
 
-data class GraphQlQuerySelectionField(
-    var name: String = "",
-)
+interface GraphQlQuerySelection

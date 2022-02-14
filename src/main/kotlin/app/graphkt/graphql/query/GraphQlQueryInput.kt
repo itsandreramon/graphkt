@@ -5,7 +5,7 @@
  * University of Applied Sciences Brandenburg
  */
 
-package app.graphkt.graphql
+package app.graphkt.graphql.query
 
 data class GraphQlQueryInput(
     var name: String = "",

@@ -5,9 +5,10 @@
  * University of Applied Sciences Brandenburg
  */
 
-package app.graphkt.concept
+package app.graphkt.concept.type
 
-import app.graphkt.graphql.GraphQlType
+import app.graphkt.concept.SchemaDefinition
+import app.graphkt.graphql.type.GraphQlType
 
 /**
  * Builder that is used to modify a GraphQL type.
