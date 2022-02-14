@@ -7,6 +7,10 @@
 
 package app.graphkt
 
+import app.graphkt.concept.fragment.Field
+import app.graphkt.concept.fragment.Fragment
+import app.graphkt.concept.fragment.fields
+import app.graphkt.concept.fragments
 import app.graphkt.concept.queries
 import app.graphkt.concept.query.FieldSelection
 import app.graphkt.concept.query.Input
@@ -18,6 +22,8 @@ import app.graphkt.concept.type.Type
 import app.graphkt.concept.type.fields
 import app.graphkt.concept.types
 import app.graphkt.graphql.buildSchema
+import app.graphkt.graphql.fragment.GraphQlFragment
+import app.graphkt.graphql.fragment.GraphQlFragmentField
 import app.graphkt.graphql.query.GraphQlQuery
 import app.graphkt.graphql.query.GraphQlQueryInput
 import app.graphkt.graphql.query.GraphQlQueryOutput
@@ -40,6 +46,37 @@ class AppTests {
         fun test_schema_name(name: String) {
             val actual = buildSchema(name).name
             assertEquals(name, actual)
+        }
+    }
+
+    @Nested
+    inner class SchemaFragmentTests {
+
+        @Test
+        fun test_schema_fragments() {
+            val actual = buildSchema {
+                fragments {
+                    Fragment(name = "exampleFragment") {
+                        fields {
+                            Field { name("exampleField"); type("[String!]!") }
+                        }
+                    }
+                }
+            }.fragments
+
+            val expected = listOf(
+                GraphQlFragment(
+                    name = "exampleFragment",
+                    fields = mutableListOf(
+                        GraphQlFragmentField(
+                            name = "exampleField",
+                            type = "[String!]!",
+                        )
+                    )
+                )
+            )
+
+            assertEquals(expected, actual)
         }
     }
 
