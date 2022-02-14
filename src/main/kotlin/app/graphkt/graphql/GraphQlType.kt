@@ -16,8 +16,8 @@ package app.graphkt.graphql
  * @param generateInput Determines whether or not a GraphQL input is being generated.
  */
 data class GraphQlType(
-	var name: String = "",
-	var fields: MutableList<GraphQlTypeField<Any>> = mutableListOf(),
-	var generateFragment: Boolean = false,
-	var generateInput: Boolean = false,
+    var name: String = "",
+    var fields: MutableList<GraphQlTypeField<Any>> = mutableListOf(),
+    var generateFragment: Boolean = false,
+    var generateInput: Boolean = false,
 )

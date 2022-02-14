@@ -7,6 +7,7 @@
 
 package app.graphkt.concept
 
+import app.graphkt.graphql.GraphQlQuery
 import app.graphkt.graphql.GraphQlSchema
 import app.graphkt.graphql.GraphQlType
 
@@ -16,7 +17,16 @@ import app.graphkt.graphql.GraphQlType
  * @param types Lambda passed into in order to add types.
  */
 fun SchemaDefinition.types(types: TypeDefinitions.() -> Unit) {
-	types(TypeDefinitions(GraphQlType(), this))
+    types(TypeDefinitions(GraphQlType(), this))
+}
+
+/**
+ * Function used to define queries inside a QueryDefinitions scope.
+ *
+ * @param types Lambda passed into in order to add types.
+ */
+fun SchemaDefinition.queries(queries: QueryDefinitions.() -> Unit) {
+    queries(QueryDefinitions(GraphQlQuery(), this))
 }
 
 /**

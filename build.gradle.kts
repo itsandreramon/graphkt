@@ -1,42 +1,42 @@
 import com.diffplug.gradle.spotless.SpotlessExtension
 
 plugins {
-	kotlin("jvm") version "1.6.10"
-	id("com.diffplug.spotless") version "6.2.1"
+    kotlin("jvm") version "1.6.10"
+    id("com.diffplug.spotless") version "6.2.1"
 }
 
 group = "app"
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_11
 
 tasks.compileKotlin {
-	kotlinOptions {
-		jvmTarget = JavaVersion.VERSION_17.toString()
-	}
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11.toString()
+    }
 }
 
 tasks.test {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
 
 configure<SpotlessExtension> {
-	kotlin {
-		target("**/*.kt")
-		targetExclude("$buildDir/**/*.kt")
-		targetExclude("bin/**/*.kt")
-		targetExclude("spotless.license.kt")
-		licenseHeaderFile(rootProject.file("spotless.license.kt"))
-	}
+    kotlin {
+        target("**/*.kt")
+        targetExclude("$buildDir/**/*.kt")
+        targetExclude("bin/**/*.kt")
+        targetExclude("spotless.license.kt")
+        licenseHeaderFile(rootProject.file("spotless.license.kt"))
+    }
 }
 
 dependencies {
-	implementation(kotlin("stdlib"))
+    implementation(kotlin("stdlib"))
 
-	testImplementation(platform("org.junit:junit-bom:5.8.2"))
-	testImplementation("org.junit.jupiter:junit-jupiter")
-	testImplementation("org.junit.jupiter:junit-jupiter-params")
+    testImplementation(platform("org.junit:junit-bom:5.8.2"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("org.junit.jupiter:junit-jupiter-params")
 }

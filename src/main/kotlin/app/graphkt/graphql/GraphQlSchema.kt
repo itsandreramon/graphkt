@@ -7,38 +7,62 @@
 
 package app.graphkt.graphql
 
+import app.graphkt.concept.QueryDefinitions
 import app.graphkt.concept.SchemaDefinition
 import app.graphkt.concept.TypeDefinitions
+
+interface GraphQlSchema {
+    val name: String
+    val types: List<GraphQlType>
+    val queries: List<GraphQlQuery>
+
+    fun addType(typeDefinitions: TypeDefinitions, type: GraphQlType)
+    fun addQuery(queryDefinitions: QueryDefinitions, query: GraphQlQuery)
+}
 
 /**
  * State-holder that represents the current transformation model.
  *
  * @param name Defines the name of generated schema.
  */
-class GraphQlSchema(val name: String) {
+class GraphQlSchemaImpl(override val name: String) : GraphQlSchema {
 
-	private val _types = mutableListOf<GraphQlType>()
-	val types: List<GraphQlType> = _types
+    override val types = mutableListOf<GraphQlType>()
+    override val queries = mutableListOf<GraphQlQuery>()
 
-	fun addType(typeDefinitions: TypeDefinitions, type: GraphQlType) {
-		if (typeDefinitions.schemaDefinition.schema == this) {
-			_types.add(type)
-		} else {
-			throw IllegalStateException("Cannot modify types of another schema.")
-		}
-	}
+    override fun addType(typeDefinitions: TypeDefinitions, type: GraphQlType) {
+        if (typeDefinitions.schemaDefinition.schema == this) {
+            types.add(type)
+        } else {
+            throw IllegalStateException("Cannot modify types of another schema.")
+        }
+    }
 
-	fun build(builder: SchemaDefinition.() -> Unit): GraphQlSchema {
-		builder(SchemaDefinition(this))
-		return this
-	}
+    override fun addQuery(queryDefinitions: QueryDefinitions, query: GraphQlQuery) {
+        if (queryDefinitions.schemaDefinition.schema == this) {
+            queries.add(query)
+        } else {
+            throw IllegalStateException("Cannot modify queries of another schema.")
+        }
+    }
 
-	override fun toString(): String {
-		return """
+    fun build(builder: SchemaDefinition.() -> Unit): GraphQlSchema {
+        builder(SchemaDefinition(this))
+        return this
+    }
+
+    fun toGraphQl(): String {
+        // TODO
+        return toString()
+    }
+
+    override fun toString(): String {
+        return """
 			name: $name
 			types: $types
+			queries: $queries
 		""".trimIndent()
-	}
+    }
 }
 
 /**
@@ -48,5 +72,5 @@ class GraphQlSchema(val name: String) {
  * @param builder Lambda passed into in order to add schema properties.
  */
 fun buildSchema(name: String, builder: SchemaDefinition.() -> Unit = {}): GraphQlSchema {
-	return GraphQlSchema(name).build(builder)
+    return GraphQlSchemaImpl(name).build(builder)
 }

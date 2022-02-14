@@ -16,21 +16,21 @@ import app.graphkt.graphql.GraphQlType
  * @param onBuiltCallback Lambda that is getting executed when all modifications are done.
  */
 class TypeBuilder(
-	private val type: GraphQlType,
-	private val onBuiltCallback: (GraphQlType) -> Unit,
+    private val type: GraphQlType,
+    private val onBuiltCallback: (GraphQlType) -> Unit,
 ) {
-	fun generateFragment(value: Boolean) {
-		type.generateFragment = value
-	}
+    fun generateFragment(value: Boolean) {
+        type.generateFragment = value
+    }
 
-	fun generateInput(value: Boolean) {
-		type.generateInput = value
-	}
+    fun generateInput(value: Boolean) {
+        type.generateInput = value
+    }
 
-	fun build(): TypeBuilder {
-		onBuiltCallback(type)
-		return this
-	}
+    fun build(): TypeBuilder {
+        onBuiltCallback(type)
+        return this
+    }
 }
 
 /**
@@ -39,17 +39,17 @@ class TypeBuilder(
  * @param typeBuilder Lambda passed into in order to define a type.
  */
 fun TypeDefinitions.Type(name: String, typeBuilder: TypeBuilder.() -> Unit = {}) {
-	this.type.apply {
-		this.name = name
-	}
+    type.apply {
+        this.name = name
+    }
 
-	typeBuilder(TypeBuilder(type, onBuiltCallback = {
-		this.schemaDefinition.schema.addType(this, it)
-	}).build())
+    typeBuilder(TypeBuilder(type, onBuiltCallback = {
+        schemaDefinition.schema.addType(this, it)
+    }).build())
 }
 
 fun TypeDefinitions.fields(fields: FieldDefinitions.() -> Unit) {
-	fields(FieldDefinitions(this))
+    fields(FieldDefinitions(this))
 }
 
 /**
@@ -59,6 +59,6 @@ fun TypeDefinitions.fields(fields: FieldDefinitions.() -> Unit) {
  * @param schemaDefinition The current schema definition the type is being defined on.
  */
 class TypeDefinitions(
-	val type: GraphQlType,
-	val schemaDefinition: SchemaDefinition,
+    val type: GraphQlType,
+    val schemaDefinition: SchemaDefinition,
 )
