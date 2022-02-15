@@ -38,8 +38,7 @@ import org.junit.jupiter.params.provider.ValueSource
 
 class AppTests {
 
-    @Nested
-    inner class SchemaTests {
+    @Nested inner class SchemaTests {
 
         @ParameterizedTest
         @ValueSource(strings = ["MySchema", "MyOtherSchema"])
@@ -49,11 +48,9 @@ class AppTests {
         }
     }
 
-    @Nested
-    inner class SchemaFragmentTests {
+    @Nested inner class SchemaFragmentTests {
 
-        @Test
-        fun test_schema_fragments() {
+        @Test fun test_schema_fragments() {
             val actual = buildSchema {
                 fragments {
                     Fragment(name = "exampleFragment") {
@@ -80,11 +77,9 @@ class AppTests {
         }
     }
 
-    @Nested
-    inner class SchemaQueryTests {
+    @Nested inner class SchemaQueryTests {
 
-        @Test
-        fun test_schema_queries() {
+        @Test fun test_schema_queries() {
             val actual = buildSchema {
                 queries {
                     Query(name = "exampleQuery") {
@@ -117,11 +112,9 @@ class AppTests {
         }
     }
 
-    @Nested
-    inner class SchemaTypeTests {
+    @Nested inner class SchemaTypeTests {
 
-        @Test
-        fun test_schema_type_fields() {
+        @Test fun test_schema_type_fields() {
             val actual = buildSchema {
                 types {
                     Type("MyType") {
@@ -145,8 +138,8 @@ class AppTests {
             assertEquals(expected, actual)
         }
 
-        @ParameterizedTest
         @ValueSource(booleans = [false, true])
+        @ParameterizedTest
         fun test_schema_types(enabled: Boolean) {
             val actual = buildSchema {
                 types {
