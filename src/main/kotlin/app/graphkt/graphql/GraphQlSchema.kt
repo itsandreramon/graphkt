@@ -66,11 +66,6 @@ class GraphQlSchemaImpl(override val name: String) : GraphQlSchema {
         return this
     }
 
-    fun toGraphQl(): String {
-        // TODO
-        return toString()
-    }
-
     override fun toString(): String {
         return """
 			name: $name
