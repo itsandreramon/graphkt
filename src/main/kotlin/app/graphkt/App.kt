@@ -53,7 +53,6 @@ val schema = buildSchema(name = "MySchema") {
                 Input { name("example2"); type("ExampleInput!") }
             }
 
-            // singular entity defined directly on QueryBuilder
             Output(type = "Example!") {
                 FieldSelection { name("example1") }
                 FieldSelection { name("example2") }

@@ -24,11 +24,11 @@ class QueryOutputBuilder(
 }
 
 fun QueryBuilder.Output(type: String, outputBuilder: QueryOutputBuilder.() -> Unit) {
-    query.apply {
+    this.query.apply {
         output.type = type
     }
 
     outputBuilder(QueryOutputBuilder(query.output, onBuiltCallback = {
-        query.output = it
+        this.query.output = it
     }).build())
 }

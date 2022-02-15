@@ -26,7 +26,7 @@ fun FragmentDefinitions.Fragment(name: String, fragmentBuilder: FragmentBuilder.
     }
 
     fragmentBuilder(FragmentBuilder(currentFragment, onBuiltCallback = {
-        schemaDefinition.schema.addFragment(this, it)
+        this.schemaDefinition.schema.addFragment(this, it)
     }).build())
 }
 

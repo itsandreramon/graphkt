@@ -32,7 +32,7 @@ fun InputDefinitions.Input(builder: QueryInputBuilder.() -> Unit) {
     val input = GraphQlQueryInput()
 
     builder(QueryInputBuilder(input, onBuiltCallback = {
-        currentQuery.inputs.add(it)
+        this.currentQuery.inputs.add(it)
     }).build())
 }
 

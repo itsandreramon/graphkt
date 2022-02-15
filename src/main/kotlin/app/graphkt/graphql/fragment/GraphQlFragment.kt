@@ -12,8 +12,6 @@ package app.graphkt.graphql.fragment
  *
  * @param name The name of the type.
  * @param fields The fields of the type.
- * @param generateFragment Determines whether or not a GraphQL fragment is being generated.
- * @param generateInput Determines whether or not a GraphQL input is being generated.
  */
 data class GraphQlFragment(
     var name: String = "",
