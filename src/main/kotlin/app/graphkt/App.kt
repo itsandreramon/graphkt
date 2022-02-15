@@ -23,6 +23,9 @@ import app.graphkt.concept.type.Type
 import app.graphkt.concept.type.fields
 import app.graphkt.concept.types
 import app.graphkt.graphql.buildSchema
+import app.graphkt.io.FileWriterImpl
+import app.graphkt.io.SchemaWriter
+import app.graphkt.io.SchemaWriterImpl
 import app.graphkt.transformer.SchemaTransformerImpl
 import app.graphkt.transformer.reducer.QueryReducerImpl
 
@@ -82,6 +85,15 @@ val schema = buildSchema(name = "MySchema") {
 }
 
 fun main() {
-    val schemaTransformer = SchemaTransformerImpl(QueryReducerImpl())
-    println(schemaTransformer.transform(schema))
+    App.schemaWriter.write(schema)
+}
+
+object App {
+
+    val schemaWriter: SchemaWriter by lazy {
+        val queryReducer = QueryReducerImpl()
+        val schemaTransformer = SchemaTransformerImpl(queryReducer)
+        val fileWriter = FileWriterImpl()
+        SchemaWriterImpl(schemaTransformer, fileWriter)
+    }
 }

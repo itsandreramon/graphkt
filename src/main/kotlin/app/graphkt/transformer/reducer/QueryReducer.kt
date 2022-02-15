@@ -16,10 +16,6 @@ interface QueryReducer {
 
 class QueryReducerImpl : QueryReducer {
     override fun reduce(indent: String, queries: List<GraphQlQuery>): String {
-        queries.onEach {
-            println("transforming $it")
-        }
-
         return buildString {
             queries.onEachIndexed { index, query ->
                 append("${indent}${query.name}(${getQueryInputs(query)}): ${query.output.type}")

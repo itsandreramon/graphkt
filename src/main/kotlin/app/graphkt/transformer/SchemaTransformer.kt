@@ -23,7 +23,7 @@ class SchemaTransformerImpl(
     override fun transform(schema: GraphQlSchema): String {
         return """
             |schema {
-            |    type: Query
+            |    query: Query
             |}
             |
             |${transformQueries(schema.queries)}
