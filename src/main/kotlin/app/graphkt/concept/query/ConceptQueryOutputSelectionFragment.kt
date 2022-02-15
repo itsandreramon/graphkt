@@ -23,10 +23,10 @@ class SelectionFragmentBuilder(
     }
 }
 
-fun OutputDefinition.FragmentSelection(builder: SelectionFragmentBuilder.() -> Unit) {
+fun QueryBuilder.FragmentSelection(builder: SelectionFragmentBuilder.() -> Unit) {
     val fragment = GraphQlQuerySelectionFragment()
 
     builder(SelectionFragmentBuilder(fragment, onBuiltCallback = {
-        this.queryDefinitions.query.output.fragments.add(it)
+        this.query.output.fragments.add(it)
     }).build())
 }

@@ -4,8 +4,9 @@ import app.graphkt.concept.SchemaDefinition
 import app.graphkt.graphql.fragment.GraphQlFragment
 
 class FragmentBuilder(
-    private val fragment: GraphQlFragment,
+    val fragment: GraphQlFragment,
     private val onBuiltCallback: (GraphQlFragment) -> Unit,
+    val fragmentDefinitions: FragmentDefinitions,
 ) {
     fun build(): FragmentBuilder {
         onBuiltCallback(fragment)
@@ -14,18 +15,18 @@ class FragmentBuilder(
 }
 
 fun FragmentDefinitions.Fragment(name: String, fragmentBuilder: FragmentBuilder.() -> Unit) {
-    fragment.apply {
+    currentFragment = GraphQlFragment().apply {
         this.name = name
     }
 
-    fragmentBuilder(FragmentBuilder(fragment, onBuiltCallback = {
+    fragmentBuilder(FragmentBuilder(currentFragment, onBuiltCallback = {
         schemaDefinition.schema.addFragment(this, it)
-    }).build())
+    }, this).build())
 }
 
 
-fun FragmentDefinitions.fields(fields: FragmentFieldDefinitions.() -> Unit) {
-    fields(FragmentFieldDefinitions(this))
+fun FragmentBuilder.fields(fields: FragmentFieldDefinitions.() -> Unit) {
+    fields(FragmentFieldDefinitions(fragment, fragmentDefinitions))
 }
 
 /**
@@ -35,6 +36,6 @@ fun FragmentDefinitions.fields(fields: FragmentFieldDefinitions.() -> Unit) {
  * @param schemaDefinition The current schema definition the fragment is being defined on.
  */
 class FragmentDefinitions(
-    val fragment: GraphQlFragment,
+    var currentFragment: GraphQlFragment = GraphQlFragment(),
     val schemaDefinition: SchemaDefinition,
 )

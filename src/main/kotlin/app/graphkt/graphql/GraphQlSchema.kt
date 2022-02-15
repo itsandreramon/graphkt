@@ -33,13 +33,13 @@ interface GraphQlSchema {
  */
 class GraphQlSchemaImpl(override val name: String) : GraphQlSchema {
 
-    override val types = mutableListOf<GraphQlType>()
-    override val queries = mutableListOf<GraphQlQuery>()
-    override val fragments = mutableListOf<GraphQlFragment>()
+    override var types = listOf<GraphQlType>()
+    override var queries = listOf<GraphQlQuery>()
+    override var fragments = listOf<GraphQlFragment>()
 
     override fun addType(typeDefinitions: TypeDefinitions, type: GraphQlType) {
         if (typeDefinitions.schemaDefinition.schema == this) {
-            types.add(type)
+            types = types.plus(type)
         } else {
             throw IllegalStateException("Cannot modify types of another schema.")
         }
@@ -47,7 +47,9 @@ class GraphQlSchemaImpl(override val name: String) : GraphQlSchema {
 
     override fun addQuery(queryDefinitions: QueryDefinitions, query: GraphQlQuery) {
         if (queryDefinitions.schemaDefinition.schema == this) {
-            queries.add(query)
+            println("adding $query")
+            queries = queries.plus(query)
+            println("all queries: ${queryDefinitions.schemaDefinition.schema.queries}")
         } else {
             throw IllegalStateException("Cannot modify queries of another schema.")
         }
@@ -55,9 +57,9 @@ class GraphQlSchemaImpl(override val name: String) : GraphQlSchema {
 
     override fun addFragment(fragmentDefinitions: FragmentDefinitions, fragment: GraphQlFragment) {
         if (fragmentDefinitions.schemaDefinition.schema == this) {
-            fragments.add(fragment)
+            fragments = fragments.plus(fragment)
         } else {
-            throw IllegalStateException("Cannot modify queries of another schema.")
+            throw IllegalStateException("Cannot modify fragments of another schema.")
         }
     }
 

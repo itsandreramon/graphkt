@@ -7,6 +7,7 @@
 
 package app.graphkt.concept.type
 
+import app.graphkt.graphql.type.GraphQlType
 import app.graphkt.graphql.type.GraphQlTypeField
 
 /**
@@ -37,10 +38,11 @@ fun TypeFieldDefinitions.Field(builder: TypeFieldBuilder.() -> Unit) {
     val field = GraphQlTypeField()
 
     builder(TypeFieldBuilder(field, onBuiltCallback = {
-        this.typeDefinitions.type.fields.add(it)
+        this.currentType.fields.add(it)
     }).build())
 }
 
 data class TypeFieldDefinitions(
+    val currentType: GraphQlType = GraphQlType(),
     val typeDefinitions: TypeDefinitions,
 )

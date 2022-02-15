@@ -14,9 +14,9 @@ import app.graphkt.concept.fragments
 import app.graphkt.concept.queries
 import app.graphkt.concept.query.FieldSelection
 import app.graphkt.concept.query.Input
+import app.graphkt.concept.query.Output
 import app.graphkt.concept.query.Query
 import app.graphkt.concept.query.inputs
-import app.graphkt.concept.query.output
 import app.graphkt.concept.type.Field
 import app.graphkt.concept.type.Type
 import app.graphkt.concept.type.fields
@@ -85,7 +85,7 @@ class AppTests {
                     Query(name = "exampleQuery") {
                         inputs { Input { name("ExampleInput") } }
 
-                        output {
+                        Output(type = "Example!") {
                             FieldSelection { name("fieldSelection1") }
                             FieldSelection { name("fieldSelection2") }
                         }
@@ -100,6 +100,7 @@ class AppTests {
                         GraphQlQueryInput("ExampleInput"),
                     ),
                     output = GraphQlQueryOutput(
+                        type = "Example!",
                         fields = mutableListOf(
                             GraphQlQuerySelectionField("fieldSelection1"),
                             GraphQlQuerySelectionField("fieldSelection2"),

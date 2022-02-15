@@ -7,6 +7,7 @@
 
 package app.graphkt.concept.query
 
+import app.graphkt.graphql.query.GraphQlQuery
 import app.graphkt.graphql.query.GraphQlQueryInput
 
 class QueryInputBuilder(
@@ -15,6 +16,10 @@ class QueryInputBuilder(
 ) {
     fun name(name: String) {
         input.name = name
+    }
+
+    fun type(type: String) {
+        input.type = type
     }
 
     fun build(): QueryInputBuilder {
@@ -27,10 +32,11 @@ fun InputDefinition.Input(builder: QueryInputBuilder.() -> Unit) {
     val input = GraphQlQueryInput()
 
     builder(QueryInputBuilder(input, onBuiltCallback = {
-        this.queryDefinitions.query.inputs.add(it)
+        this.query.inputs.add(it)
     }).build())
 }
 
 class InputDefinition(
+    val query: GraphQlQuery,
     val queryDefinitions: QueryDefinitions,
 )

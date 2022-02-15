@@ -15,28 +15,45 @@ import app.graphkt.concept.queries
 import app.graphkt.concept.query.FieldSelection
 import app.graphkt.concept.query.FragmentSelection
 import app.graphkt.concept.query.Input
+import app.graphkt.concept.query.Output
 import app.graphkt.concept.query.Query
 import app.graphkt.concept.query.inputs
-import app.graphkt.concept.query.output
 import app.graphkt.concept.type.Field
 import app.graphkt.concept.type.Type
 import app.graphkt.concept.type.fields
 import app.graphkt.concept.types
 import app.graphkt.graphql.buildSchema
+import app.graphkt.transformer.SchemaTransformerImpl
+import app.graphkt.transformer.reducer.QueryReducerImpl
 
 val schema = buildSchema(name = "MySchema") {
     queries {
         Query(name = "optimizeDirections") {
             inputs {
-                Input { name("Directions") }
+                Input { name("directions"); type("DirectionsInput!") }
+                Input { name("example"); type("ExampleInput!") }
             }
 
-            output {
+            // singular entity defined directly on QueryBuilder
+            Output(type = "Directions!") {
                 FieldSelection { name("originLatLng") }
                 FieldSelection { name("destinationLatLng") }
                 FieldSelection { name("waypoints") }
 
                 FragmentSelection { name("exampleFragment") }
+            }
+        }
+
+        Query(name = "exampleQuery") {
+            inputs {
+                Input { name("example1"); type("ExampleInput!") }
+                Input { name("example2"); type("ExampleInput!") }
+            }
+
+            // singular entity defined directly on QueryBuilder
+            Output(type = "Example!") {
+                FieldSelection { name("example1") }
+                FieldSelection { name("example2") }
             }
         }
     }
@@ -64,5 +81,6 @@ val schema = buildSchema(name = "MySchema") {
 }
 
 fun main() {
-    println(schema)
+    val schemaTransformer = SchemaTransformerImpl(QueryReducerImpl())
+    println(schemaTransformer.transform(schema))
 }

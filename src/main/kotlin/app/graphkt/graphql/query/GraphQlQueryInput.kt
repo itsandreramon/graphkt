@@ -9,4 +9,5 @@ package app.graphkt.graphql.query
 
 data class GraphQlQueryInput(
     var name: String = "",
+    var type: String = "",
 )

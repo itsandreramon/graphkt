@@ -11,7 +11,7 @@ import app.graphkt.concept.SchemaDefinition
 import app.graphkt.graphql.query.GraphQlQuery
 
 class QueryBuilder(
-    private val query: GraphQlQuery,
+    val query: GraphQlQuery,
     private val onBuiltCallback: (GraphQlQuery) -> Unit,
 ) {
     fun build(): QueryBuilder {
@@ -21,7 +21,7 @@ class QueryBuilder(
 }
 
 fun QueryDefinitions.Query(name: String, queryBuilder: QueryBuilder.() -> Unit) {
-    query.apply {
+    val query = GraphQlQuery().apply {
         this.name = name
     }
 
@@ -30,12 +30,8 @@ fun QueryDefinitions.Query(name: String, queryBuilder: QueryBuilder.() -> Unit) 
     }).build())
 }
 
-fun QueryDefinitions.output(output: OutputDefinition.() -> Unit) {
-    output(OutputDefinition(this))
-}
-
 fun QueryDefinitions.inputs(inputs: InputDefinition.() -> Unit) {
-    inputs(InputDefinition(this))
+    inputs(InputDefinition(currentQuery, this))
 }
 
 /**
@@ -45,6 +41,6 @@ fun QueryDefinitions.inputs(inputs: InputDefinition.() -> Unit) {
  * @param schemaDefinition The current schema definition the query is being defined on.
  */
 class QueryDefinitions(
-    val query: GraphQlQuery,
+    var currentQuery: GraphQlQuery = GraphQlQuery(),
     val schemaDefinition: SchemaDefinition,
 )

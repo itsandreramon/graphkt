@@ -1,5 +1,6 @@
 package app.graphkt.concept.fragment
 
+import app.graphkt.graphql.fragment.GraphQlFragment
 import app.graphkt.graphql.fragment.GraphQlFragmentField
 
 /**
@@ -30,10 +31,11 @@ fun FragmentFieldDefinitions.Field(builder: FragmentFieldBuilder.() -> Unit) {
     val field = GraphQlFragmentField()
 
     builder(FragmentFieldBuilder(field, onBuiltCallback = {
-        this.fragmentDefinitions.fragment.fields.add(it)
+        this.fragment.fields.add(it)
     }).build())
 }
 
 data class FragmentFieldDefinitions(
+    val fragment: GraphQlFragment,
     val fragmentDefinitions: FragmentDefinitions,
 )

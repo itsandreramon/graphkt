@@ -23,10 +23,10 @@ class SelectionFieldBuilder(
     }
 }
 
-fun OutputDefinition.FieldSelection(builder: SelectionFieldBuilder.() -> Unit) {
+fun QueryBuilder.FieldSelection(builder: SelectionFieldBuilder.() -> Unit) {
     val field = GraphQlQuerySelectionField()
 
     builder(SelectionFieldBuilder(field, onBuiltCallback = {
-        this.queryDefinitions.query.output.fields.add(it)
+        this.query.output.fields.add(it)
     }).build())
 }

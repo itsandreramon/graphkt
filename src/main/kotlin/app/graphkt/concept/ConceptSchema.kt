@@ -11,9 +11,6 @@ import app.graphkt.concept.fragment.FragmentDefinitions
 import app.graphkt.concept.query.QueryDefinitions
 import app.graphkt.concept.type.TypeDefinitions
 import app.graphkt.graphql.GraphQlSchema
-import app.graphkt.graphql.fragment.GraphQlFragment
-import app.graphkt.graphql.query.GraphQlQuery
-import app.graphkt.graphql.type.GraphQlType
 
 /**
  * Function used to define types inside a TypeDefinitions scope.
@@ -21,7 +18,7 @@ import app.graphkt.graphql.type.GraphQlType
  * @param types Lambda passed into in order to add types.
  */
 fun SchemaDefinition.types(types: TypeDefinitions.() -> Unit) {
-    types(TypeDefinitions(GraphQlType(), this))
+    types(TypeDefinitions(this))
 }
 
 /**
@@ -30,7 +27,7 @@ fun SchemaDefinition.types(types: TypeDefinitions.() -> Unit) {
  * @param queries Lambda passed into in order to add queries.
  */
 fun SchemaDefinition.queries(queries: QueryDefinitions.() -> Unit) {
-    queries(QueryDefinitions(GraphQlQuery(), this))
+    queries(QueryDefinitions(schemaDefinition = this))
 }
 
 /**
@@ -39,7 +36,7 @@ fun SchemaDefinition.queries(queries: QueryDefinitions.() -> Unit) {
  * @param fragments Lambda passed into in order to add fragments.
  */
 fun SchemaDefinition.fragments(fragments: FragmentDefinitions.() -> Unit) {
-    fragments(FragmentDefinitions(GraphQlFragment(), this))
+    fragments(FragmentDefinitions(schemaDefinition = this))
 }
 
 /**
