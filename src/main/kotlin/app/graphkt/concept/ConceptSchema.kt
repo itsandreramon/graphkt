@@ -18,7 +18,7 @@ import app.graphkt.graphql.GraphQlSchema
  * @param types Lambda passed into in order to add types.
  */
 fun SchemaDefinition.types(types: TypeDefinitions.() -> Unit) {
-    types(TypeDefinitions(this))
+    types(TypeDefinitions(schemaDefinition = this))
 }
 
 /**

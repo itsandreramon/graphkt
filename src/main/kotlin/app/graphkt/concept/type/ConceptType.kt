@@ -17,9 +17,8 @@ import app.graphkt.graphql.type.GraphQlType
  * @param onBuiltCallback Lambda that is getting executed when all modifications are done.
  */
 class TypeBuilder(
-    private val type: GraphQlType,
+    val type: GraphQlType,
     private val onBuiltCallback: (GraphQlType) -> Unit,
-    val typeDefinitions: TypeDefinitions,
 ) {
     fun generateFragment(value: Boolean) {
         type.generateFragment = value
@@ -41,17 +40,17 @@ class TypeBuilder(
  * @param typeBuilder Lambda passed into in order to define a type.
  */
 fun TypeDefinitions.Type(name: String, typeBuilder: TypeBuilder.() -> Unit = {}) {
-    val type = GraphQlType().apply {
+    currentType = GraphQlType().apply {
         this.name = name
     }
 
-    typeBuilder(TypeBuilder(type, onBuiltCallback = {
+    typeBuilder(TypeBuilder(currentType, onBuiltCallback = {
         schemaDefinition.schema.addType(this, it)
-    }, this).build())
+    }).build())
 }
 
 fun TypeBuilder.fields(fields: TypeFieldDefinitions.() -> Unit) {
-    fields(TypeFieldDefinitions(typeDefinitions = typeDefinitions))
+    fields(TypeFieldDefinitions(type))
 }
 
 /**
@@ -61,5 +60,6 @@ fun TypeBuilder.fields(fields: TypeFieldDefinitions.() -> Unit) {
  * @param schemaDefinition The current schema definition the type is being defined on.
  */
 class TypeDefinitions(
+    var currentType: GraphQlType = GraphQlType(),
     val schemaDefinition: SchemaDefinition,
 )

@@ -7,7 +7,6 @@
 
 package app.graphkt.concept.query
 
-import app.graphkt.graphql.query.GraphQlQuery
 import app.graphkt.graphql.query.GraphQlQueryOutput
 
 class QueryOutputBuilder(
@@ -24,12 +23,12 @@ class QueryOutputBuilder(
     }
 }
 
-fun QueryDefinitions.Output(type: String, outputBuilder: QueryOutputBuilder.() -> Unit) {
-    currentQuery = GraphQlQuery().apply {
-        this.output.type = type
+fun QueryBuilder.Output(type: String, outputBuilder: QueryOutputBuilder.() -> Unit) {
+    query.apply {
+        output.type = type
     }
 
-    outputBuilder(QueryOutputBuilder(currentQuery.output, onBuiltCallback = {
-        currentQuery.output = it
+    outputBuilder(QueryOutputBuilder(query.output, onBuiltCallback = {
+        query.output = it
     }).build())
 }

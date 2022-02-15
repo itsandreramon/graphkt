@@ -1,3 +1,10 @@
+/*
+ * Copyright 2022 - André Thiele
+ *
+ * Department of Computer Science and Media
+ * University of Applied Sciences Brandenburg
+ */
+
 package app.graphkt.concept.fragment
 
 import app.graphkt.concept.SchemaDefinition
@@ -6,7 +13,6 @@ import app.graphkt.graphql.fragment.GraphQlFragment
 class FragmentBuilder(
     val fragment: GraphQlFragment,
     private val onBuiltCallback: (GraphQlFragment) -> Unit,
-    val fragmentDefinitions: FragmentDefinitions,
 ) {
     fun build(): FragmentBuilder {
         onBuiltCallback(fragment)
@@ -21,12 +27,12 @@ fun FragmentDefinitions.Fragment(name: String, fragmentBuilder: FragmentBuilder.
 
     fragmentBuilder(FragmentBuilder(currentFragment, onBuiltCallback = {
         schemaDefinition.schema.addFragment(this, it)
-    }, this).build())
+    }).build())
 }
 
 
 fun FragmentBuilder.fields(fields: FragmentFieldDefinitions.() -> Unit) {
-    fields(FragmentFieldDefinitions(fragment, fragmentDefinitions))
+    fields(FragmentFieldDefinitions(fragment))
 }
 
 /**

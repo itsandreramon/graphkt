@@ -44,5 +44,4 @@ fun TypeFieldDefinitions.Field(builder: TypeFieldBuilder.() -> Unit) {
 
 data class TypeFieldDefinitions(
     val currentType: GraphQlType = GraphQlType(),
-    val typeDefinitions: TypeDefinitions,
 )

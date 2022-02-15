@@ -28,15 +28,14 @@ class QueryInputBuilder(
     }
 }
 
-fun InputDefinition.Input(builder: QueryInputBuilder.() -> Unit) {
+fun InputDefinitions.Input(builder: QueryInputBuilder.() -> Unit) {
     val input = GraphQlQueryInput()
 
     builder(QueryInputBuilder(input, onBuiltCallback = {
-        this.query.inputs.add(it)
+        currentQuery.inputs.add(it)
     }).build())
 }
 
-class InputDefinition(
-    val query: GraphQlQuery,
-    val queryDefinitions: QueryDefinitions,
+class InputDefinitions(
+    val currentQuery: GraphQlQuery = GraphQlQuery(),
 )

@@ -21,17 +21,17 @@ class QueryBuilder(
 }
 
 fun QueryDefinitions.Query(name: String, queryBuilder: QueryBuilder.() -> Unit) {
-    val query = GraphQlQuery().apply {
+    currentQuery = GraphQlQuery().apply {
         this.name = name
     }
 
-    queryBuilder(QueryBuilder(query, onBuiltCallback = {
+    queryBuilder(QueryBuilder(currentQuery, onBuiltCallback = {
         schemaDefinition.schema.addQuery(this, it)
     }).build())
 }
 
-fun QueryDefinitions.inputs(inputs: InputDefinition.() -> Unit) {
-    inputs(InputDefinition(currentQuery, this))
+fun QueryDefinitions.inputs(inputs: InputDefinitions.() -> Unit) {
+    inputs(InputDefinitions(currentQuery))
 }
 
 /**

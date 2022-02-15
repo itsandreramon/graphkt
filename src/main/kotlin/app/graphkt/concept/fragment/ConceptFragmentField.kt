@@ -1,3 +1,10 @@
+/*
+ * Copyright 2022 - André Thiele
+ *
+ * Department of Computer Science and Media
+ * University of Applied Sciences Brandenburg
+ */
+
 package app.graphkt.concept.fragment
 
 import app.graphkt.graphql.fragment.GraphQlFragment
@@ -31,11 +38,10 @@ fun FragmentFieldDefinitions.Field(builder: FragmentFieldBuilder.() -> Unit) {
     val field = GraphQlFragmentField()
 
     builder(FragmentFieldBuilder(field, onBuiltCallback = {
-        this.fragment.fields.add(it)
+        this.currentFragment.fields.add(it)
     }).build())
 }
 
 data class FragmentFieldDefinitions(
-    val fragment: GraphQlFragment,
-    val fragmentDefinitions: FragmentDefinitions,
+    val currentFragment: GraphQlFragment = GraphQlFragment(),
 )

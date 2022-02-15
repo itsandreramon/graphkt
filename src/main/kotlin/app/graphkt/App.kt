@@ -54,6 +54,7 @@ val schema = buildSchema(name = "MySchema") {
             Output(type = "Example!") {
                 FieldSelection { name("example1") }
                 FieldSelection { name("example2") }
+                FragmentSelection { name("example3") }
             }
         }
     }

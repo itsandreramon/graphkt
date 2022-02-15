@@ -13,6 +13,7 @@ import app.graphkt.concept.fragment.fields
 import app.graphkt.concept.fragments
 import app.graphkt.concept.queries
 import app.graphkt.concept.query.FieldSelection
+import app.graphkt.concept.query.FragmentSelection
 import app.graphkt.concept.query.Input
 import app.graphkt.concept.query.Output
 import app.graphkt.concept.query.Query
@@ -28,6 +29,7 @@ import app.graphkt.graphql.query.GraphQlQuery
 import app.graphkt.graphql.query.GraphQlQueryInput
 import app.graphkt.graphql.query.GraphQlQueryOutput
 import app.graphkt.graphql.query.GraphQlQuerySelectionField
+import app.graphkt.graphql.query.GraphQlQuerySelectionFragment
 import app.graphkt.graphql.type.GraphQlType
 import app.graphkt.graphql.type.GraphQlTypeField
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -88,6 +90,7 @@ class AppTests {
                         Output(type = "Example!") {
                             FieldSelection { name("fieldSelection1") }
                             FieldSelection { name("fieldSelection2") }
+                            FragmentSelection { name("fragmentSelection1") }
                         }
                     }
                 }
@@ -104,7 +107,10 @@ class AppTests {
                         fields = mutableListOf(
                             GraphQlQuerySelectionField("fieldSelection1"),
                             GraphQlQuerySelectionField("fieldSelection2"),
-                        )
+                        ),
+                        fragments = mutableListOf(
+                            GraphQlQuerySelectionFragment("fragmentSelection1"),
+                        ),
                     )
                 )
             )
