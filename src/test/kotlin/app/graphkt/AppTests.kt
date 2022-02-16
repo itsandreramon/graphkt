@@ -55,7 +55,7 @@ class AppTests {
         @Test fun test_schema_fragments() {
             val actual = buildSchema {
                 fragments {
-                    Fragment(name = "exampleFragment") {
+                    Fragment(name = "exampleFragment", type = "Example") {
                         fields {
                             Field { name("exampleField"); type("[String!]!") }
                         }
@@ -66,6 +66,7 @@ class AppTests {
             val expected = listOf(
                 GraphQlFragment(
                     name = "exampleFragment",
+                    type = "Example",
                     fields = mutableListOf(
                         GraphQlFragmentField(
                             name = "exampleField",
