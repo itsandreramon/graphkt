@@ -30,6 +30,8 @@ class InputReducerImpl(
                     |${inputFieldReducer.reduce(input.fields, indent)}
                     |}
                 """.trimMargin("|"))
+
+                append("\n")
             }
         }
     }

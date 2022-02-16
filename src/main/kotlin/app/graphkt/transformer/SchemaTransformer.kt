@@ -8,7 +8,10 @@
 package app.graphkt.transformer
 
 import app.graphkt.graphql.GraphQlSchema
+import app.graphkt.graphql.fragment.GraphQlFragment
+import app.graphkt.graphql.input.GraphQlInput
 import app.graphkt.graphql.query.GraphQlQuery
+import app.graphkt.graphql.type.GraphQlType
 import app.graphkt.graphql.type.toFragment
 import app.graphkt.graphql.type.toInput
 import app.graphkt.transformer.reducer.FragmentReducer
@@ -28,6 +31,7 @@ class SchemaTransformerImpl(
 ) : SchemaTransformer {
 
     override fun transform(schema: GraphQlSchema): String {
+        val queries = schema.queries
         val inputs = schema.inputs
         val types = schema.types
         val fragments = schema.fragments
@@ -40,23 +44,70 @@ class SchemaTransformerImpl(
             .filter { it.generateInput }
             .map { it.toInput() }
 
-        return """
-            |schema {
-            |    query: Query
-            |}
-            |
-            |${transformQueries(schema.queries)}
-            |
-            |${typeReducer.reduce(types)}
-            |
-            |${inputReducer.reduce(typesWithInput, postfix = "Input")}
-            |
-            |${inputReducer.reduce(inputs)}
-            |
-            |${fragmentReducer.reduce(typesWithFragment, postfix = "Fragment")}
-            |
-            |${fragmentReducer.reduce(fragments)}
-        """.trimMargin("|")
+        return buildString {
+            append(
+                """
+                |schema {
+                |    query: Query
+                |}
+                |
+                """.trimMargin("|") + "\n"
+            )
+
+            if (queries.isNotEmpty()) {
+                append(transformQueries(queries) + "\n")
+            }
+
+            if (types.isNotEmpty()) {
+                append(transformTypes(types) + "\n")
+            }
+
+            if (typesWithInput.isNotEmpty()) {
+                append(transformTypesWithInputs(typesWithInput) + "\n")
+            }
+
+            if (inputs.isNotEmpty()) {
+                append(transformInputs(inputs) + "\n")
+            }
+
+            if (typesWithFragment.isNotEmpty()) {
+                append(transformTypesWithFragments(typesWithFragment) + "\n")
+            }
+
+            if (fragments.isNotEmpty()) {
+                append(transformFragments(fragments) + "\n")
+            }
+        }
+    }
+
+    private fun transformTypes(types: List<GraphQlType>): String {
+        return if (types.isNotEmpty()) {
+            typeReducer.reduce(types)
+        } else ""
+    }
+
+    private fun transformTypesWithInputs(typesWithInput: List<GraphQlInput>): String {
+        return if (typesWithInput.isNotEmpty()) {
+            inputReducer.reduce(typesWithInput, postfix = "Input")
+        } else ""
+    }
+
+    private fun transformTypesWithFragments(typesWithFragment: List<GraphQlFragment>): String {
+        return if (typesWithFragment.isNotEmpty()) {
+            fragmentReducer.reduce(typesWithFragment, postfix = "Fragment")
+        } else ""
+    }
+
+    private fun transformInputs(inputs: List<GraphQlInput>): String {
+        return if (inputs.isNotEmpty()) {
+            inputReducer.reduce(inputs)
+        } else ""
+    }
+
+    private fun transformFragments(fragments: List<GraphQlFragment>): String {
+        return if (fragments.isNotEmpty()) {
+            fragmentReducer.reduce(fragments)
+        } else ""
     }
 
     private fun transformQueries(queries: List<GraphQlQuery>): String {
@@ -65,6 +116,7 @@ class SchemaTransformerImpl(
             |type Query {
             |${queryReducer.reduce(queries)}
             |}
+            |
         """.trimMargin("|")
         } else ""
     }

@@ -26,6 +26,8 @@ class TypeReducerImpl(
                     |${typeFieldReducer.reduce(indent, type.fields)}
                     |}
                 """.trimMargin("|"))
+
+                append("\n")
             }
         }
     }
