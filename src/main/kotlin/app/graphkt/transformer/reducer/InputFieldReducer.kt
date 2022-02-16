@@ -10,11 +10,11 @@ package app.graphkt.transformer.reducer
 import app.graphkt.graphql.input.GraphQlInputField
 
 interface InputFieldReducer {
-    fun reduce(indent: String, fields: List<GraphQlInputField>): String
+    fun reduce(fields: List<GraphQlInputField>, indent: String): String
 }
 
 class InputFieldReducerImpl : InputFieldReducer {
-    override fun reduce(indent: String, fields: List<GraphQlInputField>): String {
+    override fun reduce(fields: List<GraphQlInputField>, indent: String): String {
         return buildString {
             fields.onEachIndexed { index, field ->
                 append("${indent}${field.name}: ${field.type}")

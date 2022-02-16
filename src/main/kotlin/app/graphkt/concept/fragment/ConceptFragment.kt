@@ -20,9 +20,10 @@ class FragmentBuilder(
     }
 }
 
-fun FragmentDefinitions.Fragment(name: String, fragmentBuilder: FragmentBuilder.() -> Unit) {
+fun FragmentDefinitions.Fragment(name: String, type: String, fragmentBuilder: FragmentBuilder.() -> Unit) {
     currentFragment = GraphQlFragment().apply {
         this.name = name
+        this.type = type
     }
 
     fragmentBuilder(FragmentBuilder(currentFragment, onBuiltCallback = {

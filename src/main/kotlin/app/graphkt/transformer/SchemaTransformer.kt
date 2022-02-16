@@ -9,11 +9,12 @@ package app.graphkt.transformer
 
 import app.graphkt.graphql.GraphQlSchema
 import app.graphkt.graphql.query.GraphQlQuery
+import app.graphkt.graphql.type.toFragment
 import app.graphkt.graphql.type.toInput
+import app.graphkt.transformer.reducer.FragmentReducer
 import app.graphkt.transformer.reducer.InputReducer
 import app.graphkt.transformer.reducer.QueryReducer
 import app.graphkt.transformer.reducer.TypeReducer
-import app.graphkt.transformer.util.createIndentOfSize
 
 interface SchemaTransformer {
     fun transform(schema: GraphQlSchema): String
@@ -23,12 +24,21 @@ class SchemaTransformerImpl(
     private val queryReducer: QueryReducer,
     private val typeReducer: TypeReducer,
     private val inputReducer: InputReducer,
+    private val fragmentReducer: FragmentReducer,
 ) : SchemaTransformer {
 
     override fun transform(schema: GraphQlSchema): String {
         val inputs = schema.inputs
         val types = schema.types
-        val typesWithInput = schema.types.filter { it.generateInput }.map { it.toInput() }
+        val fragments = schema.fragments
+
+        val typesWithFragment = schema.types
+            .filter { it.generateFragment }
+            .map { it.toFragment() }
+
+        val typesWithInput = schema.types
+            .filter { it.generateInput }
+            .map { it.toInput() }
 
         return """
             |schema {
@@ -37,11 +47,15 @@ class SchemaTransformerImpl(
             |
             |${transformQueries(schema.queries)}
             |
-            |${typeReducer.reduce(indent = createIndentOfSize(4), types = types)}
+            |${typeReducer.reduce(types)}
             |
-            |${inputReducer.reduce(indent = createIndentOfSize(4), postfix = "Input", inputs = typesWithInput)}
+            |${inputReducer.reduce(typesWithInput, postfix = "Input")}
             |
-            |${inputReducer.reduce(indent = createIndentOfSize(4), inputs = inputs)}
+            |${inputReducer.reduce(inputs)}
+            |
+            |${fragmentReducer.reduce(typesWithFragment, postfix = "Fragment")}
+            |
+            |${fragmentReducer.reduce(fragments)}
         """.trimMargin("|")
     }
 
@@ -49,7 +63,7 @@ class SchemaTransformerImpl(
         return if (queries.isNotEmpty()) {
             """
             |type Query {
-            |${queryReducer.reduce(indent = createIndentOfSize(4), queries)}
+            |${queryReducer.reduce(queries)}
             |}
         """.trimMargin("|")
         } else ""

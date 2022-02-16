@@ -15,5 +15,6 @@ package app.graphkt.graphql.fragment
  */
 data class GraphQlFragment(
     var name: String = "",
+    var type: String = "",
     val fields: MutableList<GraphQlFragmentField> = mutableListOf(),
 )

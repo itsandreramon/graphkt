@@ -8,16 +8,17 @@
 package app.graphkt.transformer.reducer
 
 import app.graphkt.graphql.type.GraphQlType
+import app.graphkt.transformer.util.createIndentOfSize
 
 interface TypeReducer {
-    fun reduce(indent: String, types: List<GraphQlType>): String
+    fun reduce(types: List<GraphQlType>, indent: String = createIndentOfSize(4)): String
 }
 
 class TypeReducerImpl(
     private val typeFieldReducer: TypeFieldReducer,
 ) : TypeReducer {
 
-    override fun reduce(indent: String, types: List<GraphQlType>): String {
+    override fun reduce(types: List<GraphQlType>, indent: String): String {
         return buildString {
             types.onEach { type ->
                 append("""

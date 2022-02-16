@@ -7,12 +7,8 @@
 
 package app.graphkt
 
-import app.graphkt.concept.fragment.Field
-import app.graphkt.concept.fragment.Fragment
-import app.graphkt.concept.fragment.fields
-import app.graphkt.concept.fragments
 import app.graphkt.concept.queries
-import app.graphkt.concept.query.FieldSelection
+import app.graphkt.concept.query.FragmentSelection
 import app.graphkt.concept.query.Input
 import app.graphkt.concept.query.Output
 import app.graphkt.concept.query.Query
@@ -26,6 +22,8 @@ import app.graphkt.io.FileWriterImpl
 import app.graphkt.io.SchemaWriter
 import app.graphkt.io.SchemaWriterImpl
 import app.graphkt.transformer.SchemaTransformerImpl
+import app.graphkt.transformer.reducer.FragmentFieldReducerImpl
+import app.graphkt.transformer.reducer.FragmentReducerImpl
 import app.graphkt.transformer.reducer.InputFieldReducerImpl
 import app.graphkt.transformer.reducer.InputReducerImpl
 import app.graphkt.transformer.reducer.QueryReducerImpl
@@ -39,19 +37,8 @@ val schema = buildSchema(name = "MySchema") {
                 Input { name("directions"); type("DirectionsInput!") }
             }
 
-            // singular entity defined directly on QueryBuilder
             Output(type = "Directions!") {
-                FieldSelection { name("originLatLng") }
-                FieldSelection { name("destinationLatLng") }
-                FieldSelection { name("waypoints") }
-            }
-        }
-    }
-
-    fragments {
-        Fragment(name = "exampleFragment") {
-            fields {
-                Field { name("exampleField"); type("[String!]!") }
+                FragmentSelection { name("directionsFragment") }
             }
         }
     }
@@ -82,7 +69,9 @@ object App {
         val typeReducer = TypeReducerImpl(typeFieldReducer)
         val inputFieldReducer = InputFieldReducerImpl()
         val inputReducer = InputReducerImpl(inputFieldReducer)
-        val schemaTransformer = SchemaTransformerImpl(queryReducer, typeReducer, inputReducer)
+        val fragmentFieldReducer = FragmentFieldReducerImpl()
+        val fragmentReducer = FragmentReducerImpl(fragmentFieldReducer)
+        val schemaTransformer = SchemaTransformerImpl(queryReducer, typeReducer, inputReducer, fragmentReducer)
         val fileWriter = FileWriterImpl()
         SchemaWriterImpl(schemaTransformer, fileWriter)
     }
