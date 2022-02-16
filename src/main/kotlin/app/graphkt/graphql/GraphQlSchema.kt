@@ -9,9 +9,11 @@ package app.graphkt.graphql
 
 import app.graphkt.concept.SchemaDefinition
 import app.graphkt.concept.fragment.FragmentDefinitions
+import app.graphkt.concept.query.InputDefinitions
 import app.graphkt.concept.query.QueryDefinitions
 import app.graphkt.concept.type.TypeDefinitions
 import app.graphkt.graphql.fragment.GraphQlFragment
+import app.graphkt.graphql.input.GraphQlInput
 import app.graphkt.graphql.query.GraphQlQuery
 import app.graphkt.graphql.type.GraphQlType
 
@@ -20,10 +22,12 @@ interface GraphQlSchema {
     val types: List<GraphQlType>
     val queries: List<GraphQlQuery>
     val fragments: List<GraphQlFragment>
+    var inputs: List<GraphQlInput>
 
     fun addType(typeDefinitions: TypeDefinitions, type: GraphQlType)
     fun addQuery(queryDefinitions: QueryDefinitions, query: GraphQlQuery)
     fun addFragment(fragmentDefinitions: FragmentDefinitions, fragment: GraphQlFragment)
+    fun addInput(inputDefinitions: InputDefinitions, input: GraphQlInput)
 }
 
 /**
@@ -36,6 +40,7 @@ class GraphQlSchemaImpl(override val name: String) : GraphQlSchema {
     override var types = listOf<GraphQlType>()
     override var queries = listOf<GraphQlQuery>()
     override var fragments = listOf<GraphQlFragment>()
+    override var inputs = listOf<GraphQlInput>()
 
     override fun addType(typeDefinitions: TypeDefinitions, type: GraphQlType) {
         if (typeDefinitions.schemaDefinition.schema == this) {
@@ -61,6 +66,14 @@ class GraphQlSchemaImpl(override val name: String) : GraphQlSchema {
         }
     }
 
+    override fun addInput(inputDefinitions: InputDefinitions, input: GraphQlInput) {
+        if (inputDefinitions.schemaDefinition.schema == this) {
+            inputs = inputs.plus(input)
+        } else {
+            throw IllegalStateException("Cannot modify inputs of another schema.")
+        }
+    }
+
     fun build(builder: SchemaDefinition.() -> Unit): GraphQlSchema {
         builder(SchemaDefinition(this))
         return this
@@ -71,6 +84,7 @@ class GraphQlSchemaImpl(override val name: String) : GraphQlSchema {
 			name: $name
 			types: $types
 			queries: $queries
+			inputs: $inputs
 		""".trimIndent()
     }
 }

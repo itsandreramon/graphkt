@@ -7,6 +7,9 @@
 
 package app.graphkt.graphql.type
 
+import app.graphkt.graphql.input.GraphQlInput
+import app.graphkt.graphql.input.GraphQlInputField
+
 /**
  * Defines attributes that are used to generate a GraphQL type.
  *
@@ -21,3 +24,17 @@ data class GraphQlType(
     var generateFragment: Boolean = false,
     var generateInput: Boolean = false,
 )
+
+fun GraphQlType.toInput(): GraphQlInput {
+    return GraphQlInput(
+        name = this.name,
+        fields = this.fields.map { it.toInputField() }.toMutableList(),
+    )
+}
+
+fun GraphQlTypeField.toInputField(): GraphQlInputField {
+    return GraphQlInputField(
+        name = this.name,
+        type = this.type,
+    )
+}

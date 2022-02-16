@@ -31,7 +31,7 @@ fun QueryDefinitions.Query(name: String, queryBuilder: QueryBuilder.() -> Unit) 
 }
 
 fun QueryDefinitions.inputs(inputs: InputDefinitions.() -> Unit) {
-    inputs(InputDefinitions(currentQuery))
+    inputs(InputDefinitions(schemaDefinition, currentQuery))
 }
 
 /**

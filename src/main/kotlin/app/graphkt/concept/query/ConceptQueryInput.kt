@@ -7,6 +7,7 @@
 
 package app.graphkt.concept.query
 
+import app.graphkt.concept.SchemaDefinition
 import app.graphkt.graphql.query.GraphQlQuery
 import app.graphkt.graphql.query.GraphQlQueryInput
 
@@ -37,5 +38,6 @@ fun InputDefinitions.Input(builder: QueryInputBuilder.() -> Unit) {
 }
 
 class InputDefinitions(
+    val schemaDefinition: SchemaDefinition,
     val currentQuery: GraphQlQuery = GraphQlQuery(),
 )
