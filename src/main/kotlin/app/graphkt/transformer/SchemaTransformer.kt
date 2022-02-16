@@ -31,10 +31,12 @@ class SchemaTransformerImpl(
     }
 
     private fun transformQueries(queries: List<GraphQlQuery>): String {
-        return """
+        return if (queries.isNotEmpty()) {
+            """
             |type Query {
             |${queryReducer.reduce(indent = createIndentOfSize(4), queries)}
             |}
         """.trimMargin("|")
+        } else ""
     }
 }
