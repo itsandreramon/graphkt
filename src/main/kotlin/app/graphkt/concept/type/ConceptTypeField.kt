@@ -7,6 +7,7 @@
 
 package app.graphkt.concept.type
 
+import app.graphkt.concept.AbstractGraphQlBuilder
 import app.graphkt.graphql.type.GraphQlType
 import app.graphkt.graphql.type.GraphQlTypeField
 
@@ -18,19 +19,14 @@ import app.graphkt.graphql.type.GraphQlTypeField
  */
 class TypeFieldBuilder(
     private val field: GraphQlTypeField,
-    private val onBuiltCallback: (GraphQlTypeField) -> Unit,
-) {
+    override val onBuiltCallback: (GraphQlTypeField) -> Unit,
+) : AbstractGraphQlBuilder<GraphQlTypeField>(field, onBuiltCallback) {
     fun name(value: String) {
         field.name = value
     }
 
     fun type(value: String) {
         field.type = value
-    }
-
-    fun build(): TypeFieldBuilder {
-        onBuiltCallback(field)
-        return this
     }
 }
 
@@ -39,7 +35,7 @@ fun TypeFieldDefinitions.Field(builder: TypeFieldBuilder.() -> Unit) {
 
     builder(TypeFieldBuilder(field, onBuiltCallback = {
         this.currentType.fields.add(it)
-    }).build())
+    }).build() as TypeFieldBuilder)
 }
 
 data class TypeFieldDefinitions(

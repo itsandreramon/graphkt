@@ -7,6 +7,8 @@
 
 package app.graphkt.graphql.query
 
+import app.graphkt.concept.AbstractGraphQlConcept
+
 data class GraphQlQuerySelectionFragment(
     var name: String = "",
-)
+) : AbstractGraphQlConcept(), GraphQlQuerySelection

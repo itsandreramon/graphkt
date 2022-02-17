@@ -7,20 +7,20 @@
 
 package app.graphkt.concept.fragment
 
+import app.graphkt.concept.AbstractGraphQlBuilder
 import app.graphkt.concept.SchemaDefinition
 import app.graphkt.graphql.fragment.GraphQlFragment
 
 class FragmentBuilder(
     val fragment: GraphQlFragment,
-    private val onBuiltCallback: (GraphQlFragment) -> Unit,
-) {
-    fun build(): FragmentBuilder {
-        onBuiltCallback(fragment)
-        return this
-    }
-}
+    override val onBuiltCallback: (GraphQlFragment) -> Unit,
+) : AbstractGraphQlBuilder<GraphQlFragment>(fragment, onBuiltCallback)
 
-fun FragmentDefinitions.Fragment(name: String, type: String, fragmentBuilder: FragmentBuilder.() -> Unit) {
+fun FragmentDefinitions.Fragment(
+    name: String,
+    type: String,
+    fragmentBuilder: FragmentBuilder.() -> Unit,
+) {
     currentFragment = GraphQlFragment().apply {
         this.name = name
         this.type = type
@@ -28,7 +28,7 @@ fun FragmentDefinitions.Fragment(name: String, type: String, fragmentBuilder: Fr
 
     fragmentBuilder(FragmentBuilder(currentFragment, onBuiltCallback = {
         this.schemaDefinition.schema.addFragment(this, it)
-    }).build())
+    }).build() as FragmentBuilder)
 }
 
 

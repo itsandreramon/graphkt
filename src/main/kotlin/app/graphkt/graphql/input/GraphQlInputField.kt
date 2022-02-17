@@ -7,7 +7,9 @@
 
 package app.graphkt.graphql.input
 
-data class GraphQlInputField(
+import app.graphkt.concept.AbstractGraphQlConcept
+
+class GraphQlInputField(
     var name: String = "",
     var type: String = "",
-)
+) : AbstractGraphQlConcept()

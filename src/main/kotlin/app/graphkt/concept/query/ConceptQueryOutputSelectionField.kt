@@ -7,19 +7,15 @@
 
 package app.graphkt.concept.query
 
+import app.graphkt.concept.AbstractGraphQlBuilder
 import app.graphkt.graphql.query.GraphQlQuerySelectionField
 
 class SelectionFieldBuilder(
     private val field: GraphQlQuerySelectionField,
-    private val onBuiltCallback: (GraphQlQuerySelectionField) -> Unit,
-) {
+    override val onBuiltCallback: (GraphQlQuerySelectionField) -> Unit,
+) : AbstractGraphQlBuilder<GraphQlQuerySelectionField>(field, onBuiltCallback) {
     fun name(name: String) {
         field.name = name
-    }
-
-    fun build(): SelectionFieldBuilder {
-        onBuiltCallback(field)
-        return this
     }
 }
 
@@ -28,5 +24,5 @@ fun QueryBuilder.FieldSelection(builder: SelectionFieldBuilder.() -> Unit) {
 
     builder(SelectionFieldBuilder(field, onBuiltCallback = {
         this.query.output.fields.add(it)
-    }).build())
+    }).build() as SelectionFieldBuilder)
 }

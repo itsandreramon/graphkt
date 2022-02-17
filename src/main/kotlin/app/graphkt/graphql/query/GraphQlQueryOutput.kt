@@ -7,8 +7,10 @@
 
 package app.graphkt.graphql.query
 
+import app.graphkt.concept.AbstractGraphQlConcept
+
 data class GraphQlQueryOutput(
     var type: String = "",
     val fields: MutableList<GraphQlQuerySelectionField> = mutableListOf(),
     val fragments: MutableList<GraphQlQuerySelectionFragment> = mutableListOf(),
-)
+) : AbstractGraphQlConcept()

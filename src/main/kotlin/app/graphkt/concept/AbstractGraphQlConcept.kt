@@ -5,8 +5,6 @@
  * University of Applied Sciences Brandenburg
  */
 
-package app.graphkt.graphql.query
+package app.graphkt.concept
 
-import app.graphkt.concept.AbstractGraphQlConcept
-
-interface GraphQlQuerySelection
+abstract class AbstractGraphQlConcept

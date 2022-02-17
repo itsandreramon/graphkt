@@ -7,18 +7,14 @@
 
 package app.graphkt.concept.query
 
+import app.graphkt.concept.AbstractGraphQlBuilder
 import app.graphkt.concept.SchemaDefinition
 import app.graphkt.graphql.query.GraphQlQuery
 
 class QueryBuilder(
     val query: GraphQlQuery,
-    private val onBuiltCallback: (GraphQlQuery) -> Unit,
-) {
-    fun build(): QueryBuilder {
-        onBuiltCallback(query)
-        return this
-    }
-}
+    override val onBuiltCallback: (GraphQlQuery) -> Unit,
+) : AbstractGraphQlBuilder<GraphQlQuery>(query, onBuiltCallback)
 
 fun QueryDefinitions.Query(name: String, queryBuilder: QueryBuilder.() -> Unit) {
     currentQuery = GraphQlQuery().apply {
@@ -27,7 +23,7 @@ fun QueryDefinitions.Query(name: String, queryBuilder: QueryBuilder.() -> Unit) 
 
     queryBuilder(QueryBuilder(currentQuery, onBuiltCallback = {
         schemaDefinition.schema.addQuery(this, it)
-    }).build())
+    }).build() as QueryBuilder)
 }
 
 fun QueryDefinitions.inputs(inputs: InputDefinitions.() -> Unit) {

@@ -7,6 +7,8 @@
 
 package app.graphkt.graphql.fragment
 
+import app.graphkt.concept.AbstractGraphQlConcept
+
 /**
  * Defines attributes that are used to generate fields of a GraphQL type.
  *
@@ -16,4 +18,4 @@ package app.graphkt.graphql.fragment
 data class GraphQlFragmentField(
     var name: String = "",
     var type: String = "",
-)
+) : AbstractGraphQlConcept()

@@ -7,19 +7,15 @@
 
 package app.graphkt.concept.query
 
+import app.graphkt.concept.AbstractGraphQlBuilder
 import app.graphkt.graphql.query.GraphQlQueryOutput
 
 class QueryOutputBuilder(
     private val output: GraphQlQueryOutput,
-    private val onBuiltCallback: (GraphQlQueryOutput) -> Unit,
-) {
+    override val onBuiltCallback: (GraphQlQueryOutput) -> Unit,
+) : AbstractGraphQlBuilder<GraphQlQueryOutput>(output, onBuiltCallback) {
     fun type(type: String) {
         output.type = type
-    }
-
-    fun build(): QueryOutputBuilder {
-        onBuiltCallback(output)
-        return this
     }
 }
 
@@ -30,5 +26,5 @@ fun QueryBuilder.Output(type: String, outputBuilder: QueryOutputBuilder.() -> Un
 
     outputBuilder(QueryOutputBuilder(query.output, onBuiltCallback = {
         this.query.output = it
-    }).build())
+    }).build() as QueryOutputBuilder)
 }

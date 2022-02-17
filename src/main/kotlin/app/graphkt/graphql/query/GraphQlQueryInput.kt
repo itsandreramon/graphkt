@@ -7,7 +7,9 @@
 
 package app.graphkt.graphql.query
 
+import app.graphkt.concept.AbstractGraphQlConcept
+
 data class GraphQlQueryInput(
     var name: String = "",
     var type: String = "",
-)
+) : AbstractGraphQlConcept()

@@ -7,6 +7,7 @@
 
 package app.graphkt.graphql.type
 
+import app.graphkt.concept.AbstractGraphQlConcept
 import app.graphkt.graphql.fragment.GraphQlFragment
 import app.graphkt.graphql.fragment.GraphQlFragmentField
 import app.graphkt.graphql.input.GraphQlInput
@@ -25,7 +26,7 @@ data class GraphQlType(
     var fields: MutableList<GraphQlTypeField> = mutableListOf(),
     var generateFragment: Boolean = false,
     var generateInput: Boolean = false,
-)
+) : AbstractGraphQlConcept()
 
 fun GraphQlType.toFragment(): GraphQlFragment {
     return GraphQlFragment(

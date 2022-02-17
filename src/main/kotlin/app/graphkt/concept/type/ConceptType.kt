@@ -7,6 +7,7 @@
 
 package app.graphkt.concept.type
 
+import app.graphkt.concept.AbstractGraphQlBuilder
 import app.graphkt.concept.SchemaDefinition
 import app.graphkt.graphql.type.GraphQlType
 
@@ -18,19 +19,14 @@ import app.graphkt.graphql.type.GraphQlType
  */
 class TypeBuilder(
     val type: GraphQlType,
-    private val onBuiltCallback: (GraphQlType) -> Unit,
-) {
+    override val onBuiltCallback: (GraphQlType) -> Unit,
+) : AbstractGraphQlBuilder<GraphQlType>(type, onBuiltCallback) {
     fun generateFragment(value: Boolean) {
         type.generateFragment = value
     }
 
     fun generateInput(value: Boolean) {
         type.generateInput = value
-    }
-
-    fun build(): TypeBuilder {
-        onBuiltCallback(type)
-        return this
     }
 }
 
@@ -46,7 +42,7 @@ fun TypeDefinitions.Type(name: String, typeBuilder: TypeBuilder.() -> Unit = {})
 
     typeBuilder(TypeBuilder(currentType, onBuiltCallback = {
         schemaDefinition.schema.addType(this, it)
-    }).build())
+    }).build() as TypeBuilder)
 }
 
 fun TypeBuilder.fields(fields: TypeFieldDefinitions.() -> Unit) {

@@ -43,40 +43,40 @@ class GraphQlSchemaImpl(override val name: String) : GraphQlSchema {
     override var inputs = listOf<GraphQlInput>()
 
     override fun addType(typeDefinitions: TypeDefinitions, type: GraphQlType) {
-        if (typeDefinitions.schemaDefinition.schema == this) {
+        addIfSchemaCorrect(typeDefinitions.schemaDefinition) {
             types = types.plus(type)
-        } else {
-            throw IllegalStateException("Cannot modify types of another schema.")
         }
     }
 
     override fun addQuery(queryDefinitions: QueryDefinitions, query: GraphQlQuery) {
-        if (queryDefinitions.schemaDefinition.schema == this) {
+        addIfSchemaCorrect(queryDefinitions.schemaDefinition) {
             queries = queries.plus(query)
-        } else {
-            throw IllegalStateException("Cannot modify queries of another schema.")
         }
     }
 
     override fun addFragment(fragmentDefinitions: FragmentDefinitions, fragment: GraphQlFragment) {
-        if (fragmentDefinitions.schemaDefinition.schema == this) {
+        addIfSchemaCorrect(fragmentDefinitions.schemaDefinition) {
             fragments = fragments.plus(fragment)
-        } else {
-            throw IllegalStateException("Cannot modify fragments of another schema.")
         }
     }
 
     override fun addInput(inputDefinitions: InputDefinitions, input: GraphQlInput) {
-        if (inputDefinitions.schemaDefinition.schema == this) {
+        addIfSchemaCorrect(inputDefinitions.schemaDefinition) {
             inputs = inputs.plus(input)
-        } else {
-            throw IllegalStateException("Cannot modify inputs of another schema.")
         }
     }
 
     fun build(builder: SchemaDefinition.() -> Unit): GraphQlSchema {
         builder(SchemaDefinition(this))
         return this
+    }
+
+    private fun addIfSchemaCorrect(schemaDefinition: SchemaDefinition, onCorrect: () -> Unit) {
+        if (schemaDefinition.schema == this) {
+            onCorrect()
+        } else {
+            throw IllegalStateException("Cannot modify another schema.")
+        }
     }
 
     override fun toString(): String {
