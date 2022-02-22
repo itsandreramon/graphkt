@@ -34,7 +34,6 @@ class QueryTransformerImpl(
             |${querySelectionReducer.reduce(query)}
             |   }
             |}
-            |
         """.trimMargin("|")
     }
 
