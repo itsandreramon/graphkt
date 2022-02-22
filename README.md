@@ -62,3 +62,11 @@ fragment directionsFragment on Directions {
     waypoints
 }
 ```
+
+```graphql
+query OptimizeDirections($directions: DirectionsInput!) {
+    optimizeDirections(directions: $directions) {
+        ...directionsFragment
+    }
+}
+```

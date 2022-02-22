@@ -30,9 +30,9 @@ class QueryTransformerImpl(
 
         return """
             |query $name(${getQueryInputs(query)}) {
-            |   ${query.name}(${getQueryInputVariables(query)}) {
+            |    ${query.name}(${getQueryInputVariables(query)}) {
             |${querySelectionReducer.reduce(query)}
-            |   }
+            |    }
             |}
         """.trimMargin("|")
     }
