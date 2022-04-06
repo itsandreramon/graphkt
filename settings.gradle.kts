@@ -1,1 +1,3 @@
-rootProject.name = "graphkt"
+include("core")
+include("gen-api-kotlin")
+include("gen-api-java")
