@@ -13,4 +13,7 @@ data class GraphQlQuery(
     var name: String = "",
     var inputs: MutableList<GraphQlQueryInput> = mutableListOf(),
     var output: GraphQlQueryOutput = GraphQlQueryOutput(),
-) : AbstractGraphQlConcept()
+) : AbstractGraphQlConcept() {
+    val capitalizedName: String
+        get() = name.replaceFirstChar { it.uppercase() }
+}

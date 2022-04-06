@@ -21,10 +21,6 @@ repositories {
 
 java.sourceCompatibility = JavaVersion.VERSION_17
 
-tasks.test {
-    useJUnitPlatform()
-}
-
 subprojects {
     apply(plugin = "com.diffplug.spotless")
 
@@ -32,6 +28,10 @@ subprojects {
         kotlinOptions {
             jvmTarget = JavaVersion.VERSION_17.toString()
         }
+    }
+
+    tasks.withType<Test> {
+        useJUnitPlatform()
     }
 
     configure<SpotlessExtension> {
