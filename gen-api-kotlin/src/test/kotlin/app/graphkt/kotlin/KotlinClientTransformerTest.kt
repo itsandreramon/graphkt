@@ -29,8 +29,7 @@ class KotlinClientTransformerTest {
         queries {
             Query(name = "exampleQuery") {
                 inputs { Input { name("exampleInput"); type("ExampleInput") } }
-
-                Output(type = "Example!") {}
+                Output(type = "Example!")
             }
         }
     }

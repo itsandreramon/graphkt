@@ -19,7 +19,7 @@ class QueryOutputBuilder(
     }
 }
 
-fun QueryBuilder.Output(type: String, outputBuilder: QueryOutputBuilder.() -> Unit) {
+fun QueryBuilder.Output(type: String, outputBuilder: QueryOutputBuilder.() -> Unit = {}) {
     this.query.apply {
         output.type = type
     }
