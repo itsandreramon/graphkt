@@ -18,9 +18,14 @@ import app.graphkt.concept.type.Type
 import app.graphkt.concept.type.fields
 import app.graphkt.concept.types
 import app.graphkt.graphql.buildSchema
+import app.graphkt.io.FileWriter
 import app.graphkt.io.FileWriterImpl
 import app.graphkt.io.SchemaWriter
 import app.graphkt.io.SchemaWriterImpl
+import app.graphkt.kotlin.io.KotlinClientWriter
+import app.graphkt.kotlin.io.KotlinClientWriterImpl
+import app.graphkt.kotlin.reducer.KotlinQueryReducerImpl
+import app.graphkt.kotlin.transformer.KotlinClientTransformerImpl
 import app.graphkt.transformer.QueryTransformerImpl
 import app.graphkt.transformer.SchemaTransformerImpl
 import app.graphkt.transformer.reducer.FragmentFieldReducerImpl
@@ -60,10 +65,17 @@ val schema = buildSchema(name = "MySchema") {
 }
 
 fun main() {
-    App.schemaWriter.write(schema)
+    with(App) {
+        schemaWriter.write(schema)
+        kotlinClientWriter.write(schema)
+    }
 }
 
 object App {
+
+    private val fileWriter: FileWriter by lazy {
+        FileWriterImpl()
+    }
 
     val schemaWriter: SchemaWriter by lazy {
         val queryReducer = QueryReducerImpl()
@@ -76,7 +88,12 @@ object App {
         val fragmentReducer = FragmentReducerImpl(fragmentFieldReducer)
         val schemaTransformer = SchemaTransformerImpl(queryReducer, typeReducer, inputReducer, fragmentReducer)
         val queryTransformer = QueryTransformerImpl(querySelectionReducer)
-        val fileWriter = FileWriterImpl()
         SchemaWriterImpl(schemaTransformer, queryTransformer, fileWriter)
+    }
+
+    val kotlinClientWriter: KotlinClientWriter by lazy {
+        val kotlinQueryReducer = KotlinQueryReducerImpl()
+        val kotlinClientTransformer = KotlinClientTransformerImpl(kotlinQueryReducer)
+        KotlinClientWriterImpl(kotlinClientTransformer, fileWriter)
     }
 }

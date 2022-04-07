@@ -5,6 +5,5 @@
  * University of Applied Sciences Brandenburg
  */
 
-package app.graphkt.kotlin
+package app.graphkt.util
 
-data class KotlinClient(val data: String)

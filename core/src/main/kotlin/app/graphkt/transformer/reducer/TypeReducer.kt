@@ -8,7 +8,7 @@
 package app.graphkt.transformer.reducer
 
 import app.graphkt.graphql.type.GraphQlType
-import app.graphkt.transformer.util.createIndentOfSize
+import app.graphkt.util.createIndentOfSize
 
 interface TypeReducer {
     fun reduce(types: List<GraphQlType>, indent: String = createIndentOfSize(4)): String

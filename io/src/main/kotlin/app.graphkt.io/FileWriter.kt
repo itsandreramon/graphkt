@@ -14,7 +14,7 @@ interface FileWriter {
     fun write(text: String, path: String)
 }
 
-internal class FileWriterImpl : FileWriter {
+class FileWriterImpl : FileWriter {
 
     override fun write(text: String, path: String) {
         val file = Paths.get(path)

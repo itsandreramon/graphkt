@@ -9,7 +9,7 @@ package app.graphkt.transformer.reducer
 
 import app.graphkt.graphql.query.GraphQlQuery
 import app.graphkt.graphql.query.GraphQlQueryInput
-import app.graphkt.transformer.util.createIndentOfSize
+import app.graphkt.util.createIndentOfSize
 
 interface QueryReducer {
     fun reduce(queries: List<GraphQlQuery>, indent: String = createIndentOfSize(4)): String

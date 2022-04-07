@@ -18,6 +18,7 @@ repositories {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":io"))
     implementation(kotlin("stdlib"))
 
     implementation("com.squareup:kotlinpoet:1.11.0")

@@ -9,12 +9,13 @@ package app.graphkt.kotlin
 
 import app.graphkt.concept.queries
 import app.graphkt.concept.query.Input
-import app.graphkt.concept.query.Output
 import app.graphkt.concept.query.Query
 import app.graphkt.concept.query.inputs
 import app.graphkt.graphql.buildSchema
 import app.graphkt.kotlin.reducer.KotlinQueryReducer
 import app.graphkt.kotlin.reducer.KotlinQueryReducerImpl
+import app.graphkt.kotlin.transformer.KotlinClientTransformer
+import app.graphkt.kotlin.transformer.KotlinClientTransformerImpl
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -24,15 +25,6 @@ class KotlinClientTransformerTest {
 
     private var kotlinClientTransformer: KotlinClientTransformer? = null
     private val kotlinQueryReducer: KotlinQueryReducer = KotlinQueryReducerImpl()
-
-    private val exampleSchema = buildSchema {
-        queries {
-            Query(name = "exampleQuery") {
-                inputs { Input { name("exampleInput"); type("ExampleInput") } }
-                Output(type = "Example!")
-            }
-        }
-    }
 
     @BeforeEach
     fun setUp() {
@@ -45,6 +37,14 @@ class KotlinClientTransformerTest {
     }
 
     @Test fun test_query_reducer() {
+        val exampleSchema = buildSchema {
+            queries {
+                Query(name = "exampleQuery") {
+                    inputs { Input { name("exampleInput"); type("ExampleInput") } }
+                }
+            }
+        }
+
         val actual = kotlinQueryReducer.reduce(exampleSchema.queries)
 
         val expected = """
@@ -53,6 +53,6 @@ class KotlinClientTransformerTest {
             |}
         """.trimMargin("|")
 
-        assertEquals(expected, actual.reduction)
+        assertEquals(expected, actual)
     }
 }

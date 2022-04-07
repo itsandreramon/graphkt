@@ -8,7 +8,7 @@
 package app.graphkt.transformer.reducer
 
 import app.graphkt.graphql.fragment.GraphQlFragment
-import app.graphkt.transformer.util.createIndentOfSize
+import app.graphkt.util.createIndentOfSize
 
 interface FragmentReducer {
     fun reduce(

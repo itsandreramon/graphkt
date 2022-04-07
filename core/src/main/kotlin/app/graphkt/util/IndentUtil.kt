@@ -5,7 +5,7 @@
  * University of Applied Sciences Brandenburg
  */
 
-package app.graphkt.transformer.util
+package app.graphkt.util
 
 fun createIndentOfSize(size: Int, char: String = " "): String {
     return buildString {
@@ -13,4 +13,10 @@ fun createIndentOfSize(size: Int, char: String = " "): String {
             append(char)
         }
     }
+}
+
+fun String.applyIndent(size: Int, indent: String = " "): String {
+    return this.lines()
+        .map { "${createIndentOfSize(size, indent)}${it}\n" }
+        .reduce { acc, s -> "${acc}${s}" }
 }

@@ -8,7 +8,7 @@
 package app.graphkt.transformer.reducer
 
 import app.graphkt.graphql.fragment.GraphQlFragmentField
-import app.graphkt.transformer.util.createIndentOfSize
+import app.graphkt.util.createIndentOfSize
 
 interface FragmentFieldReducer {
     fun reduce(fields: List<GraphQlFragmentField>, indent: String = createIndentOfSize(4)): String
