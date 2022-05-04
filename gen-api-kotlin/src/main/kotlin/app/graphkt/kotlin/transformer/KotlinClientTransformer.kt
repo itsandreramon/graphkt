@@ -27,7 +27,14 @@ class KotlinClientTransformerImpl(
                 |import kotlinx.coroutines.withContext
                 |import javax.inject.Inject
                 |
-                |class RemoteDataSource(private val apollo: ApolloClient) {
+                |interface RemoteDataSource {
+                |${queryReducer.reduceAsSignature(schema.queries).applyIndent(size = 4)}
+                |}
+                |
+                |class RemoteDataSourceImpl(
+                |    private val apollo: ApolloClient
+                |) : RemoteDataSource {
+                |
                 |${queryReducer.reduce(schema.queries).applyIndent(size = 4)}
                 |}
             """.trimMargin("|"))

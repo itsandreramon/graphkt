@@ -17,6 +17,6 @@ fun createIndentOfSize(size: Int, char: String = " "): String {
 
 fun String.applyIndent(size: Int, indent: String = " "): String {
     return this.lines()
-        .map { "${createIndentOfSize(size, indent)}${it}\n" }
+        .map { "${createIndentOfSize(size, indent)}${it}" }
         .reduce { acc, s -> "${acc}${s}" }
 }

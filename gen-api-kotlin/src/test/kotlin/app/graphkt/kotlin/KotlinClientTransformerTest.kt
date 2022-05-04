@@ -55,4 +55,22 @@ class KotlinClientTransformerTest {
 
         assertEquals(expected, actual)
     }
+
+    @Test fun test_query_signature_reducer() {
+        val exampleSchema = buildSchema {
+            queries {
+                Query(name = "exampleQuery") {
+                    inputs { Input { name("exampleInput"); type("ExampleInput") } }
+                }
+            }
+        }
+
+        val actual = kotlinQueryReducer.reduceAsSignature(exampleSchema.queries)
+
+        val expected = """
+            |suspend fun exampleQuery(exampleInput: ExampleInput): ExampleQuery.Data
+        """.trimMargin("|")
+
+        assertEquals(expected, actual)
+    }
 }

@@ -13,17 +13,32 @@ import app.graphkt.util.createIndentOfSize
 
 interface KotlinQueryReducer {
     fun reduce(queries: List<GraphQlQuery>, indent: String = createIndentOfSize(4)): String
+    fun reduceAsSignature(queries: List<GraphQlQuery>, indent: String = createIndentOfSize(4)): String
 }
 
 class KotlinQueryReducerImpl : KotlinQueryReducer {
+
+    private fun getQuerySignatureAsString(query: GraphQlQuery): String {
+        return "suspend fun ${query.name}(${getQueryInputParameters(query)}): ${query.capitalizedName}.Data"
+    }
 
     override fun reduce(queries: List<GraphQlQuery>, indent: String): String {
         return buildString {
             queries.onEach { query ->
                 append("""
-                    |override suspend fun ${query.name}(${getQueryInputParameters(query)}): ${query.capitalizedName}.Data {
+                    |override ${getQuerySignatureAsString(query)} {
                     |    return apollo.query(${query.capitalizedName}()).execute()
                     |}
+                """.trimMargin("|"))
+            }
+        }
+    }
+
+    override fun reduceAsSignature(queries: List<GraphQlQuery>, indent: String): String {
+        return buildString {
+            queries.onEach { query ->
+                append("""
+                    |${getQuerySignatureAsString(query)}
                 """.trimMargin("|"))
             }
         }
