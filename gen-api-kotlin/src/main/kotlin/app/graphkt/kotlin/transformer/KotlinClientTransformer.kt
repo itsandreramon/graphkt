@@ -9,7 +9,7 @@ package app.graphkt.kotlin.transformer
 
 import app.graphkt.graphql.GraphQlSchema
 import app.graphkt.kotlin.reducer.KotlinQueryReducer
-import app.graphkt.util.applyIndent
+import app.graphkt.util.applyIndentPerLine
 
 interface KotlinClientTransformer {
     fun transform(schema: GraphQlSchema): String
@@ -28,14 +28,14 @@ class KotlinClientTransformerImpl(
                 |import javax.inject.Inject
                 |
                 |interface RemoteDataSource {
-                |${queryReducer.reduceAsSignature(schema.queries).applyIndent(size = 4)}
+                |${queryReducer.reduceAsSignature(schema.queries).applyIndentPerLine(size = 4)}
                 |}
                 |
                 |class RemoteDataSourceImpl(
-                |    private val apollo: ApolloClient
+                |    private val apollo: ApolloClient,
                 |) : RemoteDataSource {
                 |
-                |${queryReducer.reduce(schema.queries).applyIndent(size = 4)}
+                |${queryReducer.reduce(schema.queries).applyIndentPerLine(size = 4)}
                 |}
             """.trimMargin("|"))
         }

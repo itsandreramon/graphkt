@@ -73,4 +73,38 @@ class KotlinClientTransformerTest {
 
         assertEquals(expected, actual)
     }
+
+    @Test fun test_interface_and_implementation() {
+        val exampleSchema = buildSchema {
+            queries {
+                Query(name = "exampleQuery") {
+                    inputs { Input { name("exampleInput"); type("ExampleInput") } }
+                }
+            }
+        }
+
+        val actual = kotlinClientTransformer!!.transform(exampleSchema)
+
+        val expected = """
+            |import com.apollographql.apollo3.ApolloClient
+            |import com.apollographql.apollo3.exception.ApolloException
+            |import kotlinx.coroutines.withContext
+            |import javax.inject.Inject
+            |
+            |interface RemoteDataSource {
+            |    suspend fun exampleQuery(exampleInput: ExampleInput!): ExampleQuery.Data
+            |}
+            |
+            |class RemoteDataSourceImpl(
+            |    private val apollo: ApolloClient,
+            |) : RemoteDataSource {
+            |
+            |    override suspend fun exampleQuery(exampleInput: ExampleInput!): ExampleQuery.Data {
+            |        return apollo.query(ExampleQuery()).execute()
+            |    }
+            |}
+        """.trimMargin("|")
+
+        assertEquals(expected, actual)
+    }
 }
