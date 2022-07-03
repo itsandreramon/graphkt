@@ -8,18 +8,19 @@ import app.graphkt.util.applyIndentPerLine
 class JavaClientTransformer(
     private val queryReducer: JavaQueryReducer,
 ) : SchemaTransformer {
-    override fun transform(schema: GraphQlSchema): String {
-        return buildString {
+    override fun transform(schema: GraphQlSchema): List<Pair<String, String>> {
+        val protocol = buildString {
             append("""
-                |import com.apollographql.apollo3.ApolloClient
-                |import com.apollographql.apollo3.exception.ApolloException
-                |import 
-                |import kotlinx.coroutines.withContext
-                |import javax.inject.Inject
-                |
                 |interface RemoteDataSource {
                 |${queryReducer.reduceAsSignature(schema.queries).applyIndentPerLine(size = 4)}
                 |}
+            """.trimIndent())
+        }
+
+        val client = buildString {
+            append("""
+                |import com.apollographql.apollo3.ApolloClient;
+                |import io.reactivex.rxjava3.core.Observable;
                 |
                 |class RemoteDataSourceImpl(
                 |    private val apollo: ApolloClient,
@@ -29,5 +30,10 @@ class JavaClientTransformer(
                 |}
             """.trimMargin("|"))
         }
+
+        return listOf(
+            Pair("RemoteDataSource", protocol),
+            Pair("RemoteDataSourceImpl", client),
+        )
     }
 }

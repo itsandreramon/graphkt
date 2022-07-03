@@ -18,9 +18,11 @@ class KotlinClientWriter(
 ) : SchemaWriter {
 
     override fun write(schema: GraphQlSchema) {
-        fileWriter.write(
-            text = transformer.transform(schema),
-            path = "./dist/RemoteDataSource.kt"
-        )
+        transformer.transform(schema).onEach { (name, content) ->
+            fileWriter.write(
+                text = content,
+                path = "./dist/$name.kt"
+            )
+        }
     }
 }

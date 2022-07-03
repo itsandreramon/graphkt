@@ -20,7 +20,7 @@ import app.graphkt.transformer.reducer.QueryReducer
 import app.graphkt.transformer.reducer.TypeReducer
 
 interface SchemaTransformer {
-    fun transform(schema: GraphQlSchema): String
+    fun transform(schema: GraphQlSchema): List<Pair<String, String>>
 }
 
 class SchemaTransformerImpl(
@@ -30,7 +30,7 @@ class SchemaTransformerImpl(
     private val fragmentReducer: FragmentReducer,
 ) : SchemaTransformer {
 
-    override fun transform(schema: GraphQlSchema): String {
+    override fun transform(schema: GraphQlSchema): List<Pair<String, String>> {
         val queries = schema.queries
         val inputs = schema.inputs
         val types = schema.types
@@ -44,7 +44,7 @@ class SchemaTransformerImpl(
             .filter { it.generateInput }
             .map { it.toInput() }
 
-        return buildString {
+        val schemaString = buildString {
             append(
                 """
                 |schema {
@@ -78,6 +78,10 @@ class SchemaTransformerImpl(
                 append(transformFragments(fragments) + "\n")
             }
         }
+
+        return listOf(
+            Pair(schema.name, schemaString)
+        )
     }
 
     private fun transformTypes(types: List<GraphQlType>): String {

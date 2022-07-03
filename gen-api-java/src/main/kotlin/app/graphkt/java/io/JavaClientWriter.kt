@@ -10,9 +10,11 @@ class JavaClientWriter(
     private val fileWriter: FileWriter,
 ) : SchemaWriter {
     override fun write(schema: GraphQlSchema) {
-        fileWriter.write(
-            text = transformer.transform(schema),
-            path = "./dist/RemoteDataSource.java"
-        )
+        transformer.transform(schema).onEach { (name, content) ->
+            fileWriter.write(
+                text = content,
+                path = "./dist/$name.java",
+            )
+        }
     }
 }
