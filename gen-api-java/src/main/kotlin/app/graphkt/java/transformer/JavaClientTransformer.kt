@@ -14,7 +14,7 @@ class JavaClientTransformer(
                 |interface RemoteDataSource {
                 |${queryReducer.reduceAsSignature(schema.queries).applyIndentPerLine(size = 4)}
                 |}
-            """.trimIndent())
+            """.trimMargin("|"))
         }
 
         val client = buildString {

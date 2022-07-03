@@ -16,8 +16,8 @@ class KotlinClientTransformer(
     private val queryReducer: KotlinQueryReducer,
 ) : SchemaTransformer {
 
-    override fun transform(schema: GraphQlSchema): String {
-        return buildString {
+    override fun transform(schema: GraphQlSchema): List<Pair<String, String>> {
+        val client = buildString {
             append("""
                 |import com.apollographql.apollo3.ApolloClient
                 |import com.apollographql.apollo3.exception.ApolloException
@@ -36,5 +36,9 @@ class KotlinClientTransformer(
                 |}
             """.trimMargin("|"))
         }
+
+        return listOf(
+            Pair("RemoteDataSource", client)
+        )
     }
 }

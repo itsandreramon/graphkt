@@ -56,7 +56,7 @@ class JavaQueryReducerImpl : JavaQueryReducer {
 
     private fun getQueryInputParameters(query: GraphQlQuery): String {
         fun getQueryInput(input: GraphQlQueryInput): String {
-            return "${input.type} ${input.name}"
+            return "${input.type.substringBefore("!")} ${input.name}"
         }
 
         return query.inputs.joinToString(

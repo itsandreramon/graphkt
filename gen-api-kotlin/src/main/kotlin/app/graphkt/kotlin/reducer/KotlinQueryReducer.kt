@@ -45,7 +45,7 @@ class KotlinQueryReducerImpl : KotlinQueryReducer {
 
     private fun getQueryInputParameters(query: GraphQlQuery): String {
         fun getQueryInput(input: GraphQlQueryInput): String {
-            return "${input.name}: ${input.type}"
+            return "${input.name}: ${input.type.substringBefore("!")}"
         }
 
         return query.inputs.joinToString(

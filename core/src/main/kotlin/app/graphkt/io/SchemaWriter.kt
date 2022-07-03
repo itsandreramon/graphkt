@@ -22,10 +22,12 @@ class SchemaWriterImpl(
 ) : SchemaWriter {
 
     override fun write(schema: GraphQlSchema) {
-        fileWriter.write(
-            text = schemaTransformer.transform(schema),
-            path = "./dist/${schema.name}.graphql"
-        )
+        schemaTransformer.transform(schema).onEach { (name, content) ->
+            fileWriter.write(
+                text = content,
+                path = "./dist/$name.graphql"
+            )
+        }
 
         schema.queries
             .distinctBy { it.name }
