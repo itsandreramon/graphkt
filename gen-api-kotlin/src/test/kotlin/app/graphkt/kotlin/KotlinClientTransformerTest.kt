@@ -13,9 +13,7 @@ import app.graphkt.concept.query.Query
 import app.graphkt.concept.query.inputs
 import app.graphkt.graphql.buildSchema
 import app.graphkt.kotlin.reducer.KotlinQueryReducer
-import app.graphkt.kotlin.reducer.KotlinQueryReducerImpl
 import app.graphkt.kotlin.transformer.KotlinClientTransformer
-import app.graphkt.kotlin.transformer.KotlinClientTransformerImpl
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -24,11 +22,11 @@ import org.junit.jupiter.api.Test
 class KotlinClientTransformerTest {
 
     private var kotlinClientTransformer: KotlinClientTransformer? = null
-    private val kotlinQueryReducer: KotlinQueryReducer = KotlinQueryReducerImpl()
+    private val kotlinQueryReducer: KotlinQueryReducer = KotlinQueryReducer()
 
     @BeforeEach
     fun setUp() {
-        kotlinClientTransformer = KotlinClientTransformerImpl(kotlinQueryReducer)
+        kotlinClientTransformer = KotlinClientTransformer(kotlinQueryReducer)
     }
 
     @AfterEach

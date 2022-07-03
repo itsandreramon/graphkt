@@ -9,19 +9,14 @@ package app.graphkt.kotlin.reducer
 
 import app.graphkt.graphql.query.GraphQlQuery
 import app.graphkt.graphql.query.GraphQlQueryInput
+import app.graphkt.transformer.reducer.QueryReducer
 import app.graphkt.util.createIndentOfSize
 
-interface KotlinQueryReducer {
-    fun reduce(queries: List<GraphQlQuery>, indent: String = createIndentOfSize(4)): String
+interface KotlinQueryReducer : QueryReducer {
     fun reduceAsSignature(queries: List<GraphQlQuery>, indent: String = createIndentOfSize(4)): String
 }
 
 class KotlinQueryReducerImpl : KotlinQueryReducer {
-
-    private fun getQuerySignatureAsString(query: GraphQlQuery): String {
-        return "suspend fun ${query.name}(${getQueryInputParameters(query)}): ${query.capitalizedName}.Data"
-    }
-
     override fun reduce(queries: List<GraphQlQuery>, indent: String): String {
         return buildString {
             queries.onEach { query ->
@@ -42,6 +37,10 @@ class KotlinQueryReducerImpl : KotlinQueryReducer {
                 """.trimMargin("|"))
             }
         }
+    }
+
+    private fun getQuerySignatureAsString(query: GraphQlQuery): String {
+        return "suspend fun ${query.name}(${getQueryInputParameters(query)}): ${query.capitalizedName}.Data"
     }
 
     private fun getQueryInputParameters(query: GraphQlQuery): String {

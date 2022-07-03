@@ -23,9 +23,8 @@ import app.graphkt.io.FileWriterImpl
 import app.graphkt.io.SchemaWriter
 import app.graphkt.io.SchemaWriterImpl
 import app.graphkt.kotlin.io.KotlinClientWriter
-import app.graphkt.kotlin.io.KotlinClientWriterImpl
-import app.graphkt.kotlin.reducer.KotlinQueryReducerImpl
-import app.graphkt.kotlin.transformer.KotlinClientTransformerImpl
+import app.graphkt.kotlin.reducer.KotlinQueryReducer
+import app.graphkt.kotlin.transformer.KotlinClientTransformer
 import app.graphkt.transformer.QueryTransformerImpl
 import app.graphkt.transformer.SchemaTransformerImpl
 import app.graphkt.transformer.reducer.FragmentFieldReducerImpl
@@ -92,8 +91,8 @@ object App {
     }
 
     val kotlinClientWriter: KotlinClientWriter by lazy {
-        val kotlinQueryReducer = KotlinQueryReducerImpl()
-        val kotlinClientTransformer = KotlinClientTransformerImpl(kotlinQueryReducer)
-        KotlinClientWriterImpl(kotlinClientTransformer, fileWriter)
+        val kotlinQueryReducer = KotlinQueryReducer()
+        val kotlinClientTransformer = KotlinClientTransformer(kotlinQueryReducer)
+        KotlinClientWriter(kotlinClientTransformer, fileWriter)
     }
 }

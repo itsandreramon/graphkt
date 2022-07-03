@@ -18,5 +18,6 @@ repositories {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":io"))
     implementation(kotlin("stdlib"))
 }

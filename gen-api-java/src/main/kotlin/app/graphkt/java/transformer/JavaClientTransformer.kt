@@ -1,26 +1,19 @@
-/*
- * Copyright 2022 - André Thiele
- *
- * Department of Computer Science and Media
- * University of Applied Sciences Brandenburg
- */
-
-package app.graphkt.kotlin.transformer
+package app.graphkt.java.transformer
 
 import app.graphkt.graphql.GraphQlSchema
-import app.graphkt.kotlin.reducer.KotlinQueryReducer
+import app.graphkt.java.reducer.JavaQueryReducer
 import app.graphkt.transformer.SchemaTransformer
 import app.graphkt.util.applyIndentPerLine
 
-class KotlinClientTransformer(
-    private val queryReducer: KotlinQueryReducer,
+class JavaClientTransformerImpl(
+    private val queryReducer: JavaQueryReducer,
 ) : SchemaTransformer {
-
     override fun transform(schema: GraphQlSchema): String {
         return buildString {
             append("""
                 |import com.apollographql.apollo3.ApolloClient
                 |import com.apollographql.apollo3.exception.ApolloException
+                |import 
                 |import kotlinx.coroutines.withContext
                 |import javax.inject.Inject
                 |
