@@ -44,8 +44,12 @@ class JavaQueryReducerImpl : JavaQueryReducer {
 
     private fun getQueryInputsAsBuilder(inputs: List<GraphQlQueryInput>): String {
         return buildString {
-            inputs.onEach { input ->
-                append(".${input.name}(${input.name})\n")
+            inputs.onEachIndexed { index, input ->
+                append(".${input.name}(${input.name})")
+
+                if (index < inputs.size - 1) {
+                    append("\n")
+                }
             }
         }
     }
