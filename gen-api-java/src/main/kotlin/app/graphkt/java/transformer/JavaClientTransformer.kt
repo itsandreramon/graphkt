@@ -5,7 +5,7 @@ import app.graphkt.java.reducer.JavaQueryReducer
 import app.graphkt.transformer.SchemaTransformer
 import app.graphkt.util.applyIndentPerLine
 
-class JavaClientTransformerImpl(
+class JavaClientTransformer(
     private val queryReducer: JavaQueryReducer,
 ) : SchemaTransformer {
     override fun transform(schema: GraphQlSchema): String {

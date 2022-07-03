@@ -5,7 +5,7 @@ import app.graphkt.io.FileWriter
 import app.graphkt.io.SchemaWriter
 import app.graphkt.transformer.SchemaTransformer
 
-class KotlinClientWriterImpl(
+class JavaClientWriter(
     private val transformer: SchemaTransformer,
     private val fileWriter: FileWriter,
 ) : SchemaWriter {

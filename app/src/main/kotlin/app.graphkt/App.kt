@@ -22,8 +22,11 @@ import app.graphkt.io.FileWriter
 import app.graphkt.io.FileWriterImpl
 import app.graphkt.io.SchemaWriter
 import app.graphkt.io.SchemaWriterImpl
+import app.graphkt.java.io.JavaClientWriter
+import app.graphkt.java.reducer.JavaQueryReducerImpl
+import app.graphkt.java.transformer.JavaClientTransformer
 import app.graphkt.kotlin.io.KotlinClientWriter
-import app.graphkt.kotlin.reducer.KotlinQueryReducer
+import app.graphkt.kotlin.reducer.KotlinQueryReducerImpl
 import app.graphkt.kotlin.transformer.KotlinClientTransformer
 import app.graphkt.transformer.QueryTransformerImpl
 import app.graphkt.transformer.SchemaTransformerImpl
@@ -67,6 +70,7 @@ fun main() {
     with(App) {
         schemaWriter.write(schema)
         kotlinClientWriter.write(schema)
+        javaClientWriter.write(schema)
     }
 }
 
@@ -91,8 +95,14 @@ object App {
     }
 
     val kotlinClientWriter: KotlinClientWriter by lazy {
-        val kotlinQueryReducer = KotlinQueryReducer()
+        val kotlinQueryReducer = KotlinQueryReducerImpl()
         val kotlinClientTransformer = KotlinClientTransformer(kotlinQueryReducer)
         KotlinClientWriter(kotlinClientTransformer, fileWriter)
+    }
+
+    val javaClientWriter: JavaClientWriter by lazy {
+        val javaQueryReducer = JavaQueryReducerImpl()
+        val javaClientTransformer = JavaClientTransformer(javaQueryReducer)
+        JavaClientWriter(javaClientTransformer, fileWriter)
     }
 }

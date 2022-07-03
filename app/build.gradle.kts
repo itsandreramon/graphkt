@@ -25,6 +25,7 @@ dependencies {
     implementation(project(":io"))
     implementation(project(":core"))
     implementation(project(":gen-api-kotlin"))
+    implementation(project(":gen-api-java"))
 
     implementation(kotlin("stdlib"))
 
