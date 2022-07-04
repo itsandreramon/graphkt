@@ -13,6 +13,7 @@ import app.graphkt.concept.query.Query
 import app.graphkt.concept.query.inputs
 import app.graphkt.graphql.buildSchema
 import app.graphkt.kotlin.reducer.KotlinQueryReducer
+import app.graphkt.kotlin.reducer.KotlinQueryReducerImpl
 import app.graphkt.kotlin.transformer.KotlinClientTransformer
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -22,7 +23,7 @@ import org.junit.jupiter.api.Test
 class KotlinClientTransformerTest {
 
     private var kotlinClientTransformer: KotlinClientTransformer? = null
-    private val kotlinQueryReducer: KotlinQueryReducer = KotlinQueryReducer()
+    private val kotlinQueryReducer: KotlinQueryReducer = KotlinQueryReducerImpl()
 
     @BeforeEach
     fun setUp() {
@@ -90,19 +91,19 @@ class KotlinClientTransformerTest {
             |import javax.inject.Inject
             |
             |interface RemoteDataSource {
-            |    suspend fun exampleQuery(exampleInput: ExampleInput!): ExampleQuery.Data
+            |    suspend fun exampleQuery(exampleInput: ExampleInput): ExampleQuery.Data
             |}
             |
             |class RemoteDataSourceImpl(
             |    private val apollo: ApolloClient,
             |) : RemoteDataSource {
             |
-            |    override suspend fun exampleQuery(exampleInput: ExampleInput!): ExampleQuery.Data {
+            |    override suspend fun exampleQuery(exampleInput: ExampleInput): ExampleQuery.Data {
             |        return apollo.query(ExampleQuery()).execute()
             |    }
             |}
         """.trimMargin("|")
 
-        assertEquals(expected, actual)
+        assertEquals(expected, actual.first().second)
     }
 }
