@@ -22,10 +22,10 @@ class JavaQueryReducerImpl : JavaQueryReducer {
                     |           .build()
                     |    );
                     |
-                    |    return Observable<Result<${query.capitalizedName}.Data>> observable = Rx3Apollo.from(call)
+                    |    return Rx3Apollo.from(call)
                     |       .subscribeOn(schedulerProvider.io())
                     |       .observeOn(schedulerProvider.main())
-                    |       .map(response -> Result.onNullWrapError(response.getData()))
+                    |       .map(response -> response.getData());
                     |}
                 """.trimMargin("|"))
             }

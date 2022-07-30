@@ -4,6 +4,7 @@ import app.graphkt.graphql.GraphQlSchema
 import app.graphkt.java.reducer.JavaQueryReducer
 import app.graphkt.transformer.SchemaTransformer
 import app.graphkt.util.applyIndentPerLine
+import app.graphkt.util.createIndentOfSize
 
 class JavaClientTransformer(
     private val queryReducer: JavaQueryReducer,
@@ -22,9 +23,15 @@ class JavaClientTransformer(
                 |import com.apollographql.apollo3.ApolloClient;
                 |import io.reactivex.rxjava3.core.Observable;
                 |
-                |class RemoteDataSourceImpl(
-                |    private val apollo: ApolloClient,
-                |) : RemoteDataSource {
+                |class RemoteDataSourceImpl implements RemoteDataSource {
+                |
+                |    private final ApolloClient apollo;
+                |    private final SchedulerProvider schedulerProvider;
+                |
+                |    public RemoteDataSourceImpl(ApolloClient apollo, SchedulerProvider schedulerProvider) {
+                |        this.apollo = apollo;
+                |        this.schedulerProvider = schedulerProvider;
+                |    }
                 |
                 |${queryReducer.reduce(schema.queries).applyIndentPerLine(size = 4)}
                 |}
