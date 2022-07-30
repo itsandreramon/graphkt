@@ -94,15 +94,15 @@ class RemoteDataSourceImpl implements RemoteDataSource {
     @Override
     public Observable<OptimizeDirections.Data> optimizeDirections(DirectionsInput directions) {
         ApolloQueryCall<OptimizeDirections.Data> call = apollo.query(
-           OptimizeDirections.builder()
-               .directions(directions)
-               .build()
+             OptimizeDirections.builder()
+                 .directions(directions)
+                 .build()
         );
-    
+
         return Rx3Apollo.from(call)
-           .subscribeOn(schedulerProvider.io())
-           .observeOn(schedulerProvider.main())
-           .map(response -> response.getData());
+            .subscribeOn(schedulerProvider.io())
+            .observeOn(schedulerProvider.main())
+            .map(response -> response.getData());
     }
 }
 ```
