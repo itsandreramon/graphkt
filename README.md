@@ -2,7 +2,11 @@
 
 Generate a GraphQL schema and corresponding Apollo client from a shared Kotlin DSL.
 
-## Example
+## Supported Clients
+- Java
+- Kotlin
+
+## Kotlin DSL
 
 ```kotlin
 val schema = buildSchema(name = "MySchema") {
@@ -35,6 +39,8 @@ val schema = buildSchema(name = "MySchema") {
 
 ## Result
 
+### Schema
+
 ```graphql
 schema {
     query: Query
@@ -63,10 +69,40 @@ fragment directionsFragment on Directions {
 }
 ```
 
+### Client query
+
 ```graphql
 query OptimizeDirections($directions: DirectionsInput!) {
     optimizeDirections(directions: $directions) {
         ...directionsFragment
+    }
+}
+```
+
+### Java Client
+```java
+class RemoteDataSourceImpl implements RemoteDataSource {
+
+    private final ApolloClient apollo;
+    private final SchedulerProvider schedulerProvider;
+
+    public RemoteDataSourceImpl(ApolloClient apollo, SchedulerProvider schedulerProvider) {
+        this.apollo = apollo;
+        this.schedulerProvider = schedulerProvider;
+    }
+
+    @Override
+    public Observable<OptimizeDirections.Data> optimizeDirections(DirectionsInput directions) {
+        ApolloQueryCall<OptimizeDirections.Data> call = apollo.query(
+           OptimizeDirections.builder()
+               .directions(directions)
+               .build()
+        );
+    
+        return Rx3Apollo.from(call)
+           .subscribeOn(schedulerProvider.io())
+           .observeOn(schedulerProvider.main())
+           .map(response -> response.getData());
     }
 }
 ```
