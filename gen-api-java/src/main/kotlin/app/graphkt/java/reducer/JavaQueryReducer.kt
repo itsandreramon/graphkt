@@ -17,15 +17,15 @@ class JavaQueryReducerImpl : JavaQueryReducer {
                     |@Override
                     |public ${getQuerySignatureAsString(query)} {
                     |    ApolloQueryCall<${query.capitalizedName}.Data> call = apollo.query(
-                    |       ${query.capitalizedName}.builder()
-                    |           ${getQueryInputsAsBuilder(query.inputs)}
-                    |           .build()
+                    |        ${query.capitalizedName}.builder()
+                    |            ${getQueryInputsAsBuilder(query.inputs)}
+                    |            .build()
                     |    );
                     |
                     |    return Rx3Apollo.from(call)
-                    |       .subscribeOn(schedulerProvider.io())
-                    |       .observeOn(schedulerProvider.main())
-                    |       .map(response -> response.getData());
+                    |        .subscribeOn(schedulerProvider.io())
+                    |        .observeOn(schedulerProvider.main())
+                    |        .map(response -> response.getData());
                     |}
                 """.trimMargin("|"))
             }
