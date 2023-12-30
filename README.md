@@ -1,6 +1,6 @@
-# graphkt (work in progress)
+# graphkt
 
-Generate a GraphQL schema and corresponding Apollo client from a shared Kotlin DSL.
+Generate a GraphQL schema and corresponding Apollo client from a shared Kotlin DSL built as part of the Project III course at the University of Applied Sciences Brandenburg.
 
 ## Supported Clients
 - Java
